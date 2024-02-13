@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <limits>
 
 struct Studentas{
     std::string vardas;
@@ -13,17 +14,25 @@ struct Studentas{
     double galutinisMed = 0;
 
     void apskaiciuotiGalutiniVid() {
-        galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
+        if (n > 0) {
+            galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
+        } else {
+            galutinisVid = (egz * 0.6);
+        }
     }
 
     void apskaiciuotiGalutiniMed() {
-        std::sort(namuDarbai, namuDarbai + n); //išrikiuoti didėjimo tvarka
-        if (n % 2 == 1) {
-            galutinisMed = namuDarbai[n / 2]; //jei namų darbų skaičius yra nelyginis, mediana per vidurį
+        if(n > 0){
+            std::sort(namuDarbai, namuDarbai + n); //išrikiuoti didėjimo tvarka
+            if (n % 2 == 1) {
+                galutinisMed = namuDarbai[n / 2]; //jei namų darbų skaičius yra nelyginis, mediana per vidurį
+            } else {
+                galutinisMed = (namuDarbai[n / 2 - 1] + namuDarbai[n / 2]) / 2.0; //jei ne, mediana dviejų vidurinių skaičių aritmetinis vidurkis
+            }
+            galutinisMed = (galutinisMed * 0.4) + (egz * 0.6);
         } else {
-            galutinisMed = (namuDarbai[n / 2 - 1] + namuDarbai[n / 2]) / 2.0; //jei ne, mediana dviejų vidurinių skaičių aritmetinis vidurkis
+            galutinisMed = (egz * 0.6);
         }
-        galutinisMed = (galutinisMed * 0.4) + (egz * 0.6);
     }
 
     ~Studentas() {
@@ -31,10 +40,23 @@ struct Studentas{
     }
 };
 
+int patikrintiSkaiciu(bool yraPazymys = false) {
+    int skaicius;
+    while (true) {
+        std::cin >> skaicius;
+        if (std::cin.fail() || skaicius < 0 || (yraPazymys && (skaicius > 10))) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
+        } else {
+            return skaicius;
+        }
+    }
+}
+
 int main() {
-    int m = 0; //studentų skaicius
     std::cout << "Įveskite studentų skaičių: ";
-    std::cin >> m;
+    int m = patikrintiSkaiciu(); //studentų skaicius
     Studentas* studentai = new Studentas[m];
     for (int i = 0; i < m; i++) {
         std::cout << "  Įveskite #" << i + 1 << " studento vardą: ";
@@ -42,13 +64,13 @@ int main() {
         std::cout << "  Įveskite #" << i + 1 << " studento pavardę: ";
         std::cin >> studentai[i].pavarde;
         std::cout << "  Įveskite #" << i + 1 << " studento egzamino rezultatą: ";
-        std::cin >> studentai[i].egz;
+        studentai[i].egz = patikrintiSkaiciu(true);
         std::cout << "  Įveskite #" << i + 1 << " studento namų darbų skaičių: ";
-        std::cin >> studentai[i].n;
+        studentai[i].n = patikrintiSkaiciu();
         studentai[i].namuDarbai = new int[studentai[i].n];
         for (int v = 0; v < studentai[i].n; v++) {
             std::cout << "    Įveskite #" << v + 1 << " namų darbo rezultatą: ";
-            std::cin >> studentai[i].namuDarbai[v];
+            studentai[i].namuDarbai[v] = patikrintiSkaiciu(true);
             studentai[i].sum += studentai[i].namuDarbai[v];
         }
         studentai[i].apskaiciuotiGalutiniVid();
