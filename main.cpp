@@ -3,8 +3,8 @@
 struct Studentas{
     std::string vardas;
     std::string pavarde;    
-    int n = 0; //namu darbu skaicius
-    int sum = 0; //namu darbu rezultatu suma
+    int n = 0; //namų darbų skaičius
+    int sum = 0; //namų darbų rezultatų suma
     int egz = 0; //egzamino rezultatas
     double galutinis = 0;
     void apskaiciuotiGalutini(){
@@ -13,23 +13,23 @@ struct Studentas{
 };
 
 int main() {
-    int m = 0; //studentu skaicius
-    std::cout << "Iveskite studentu skaiciu: ";
+    int m = 0; //studentų skaicius
+    std::cout << "Įveskite studentų skaičių: ";
     std::cin >> m;
     Studentas* studentai = new Studentas[m];
     for(int i = 0; i < m; i++){
         Studentas studentas;
-        std::cout << "  Iveskite #" << i+1 << " studento varda: ";
+        std::cout << "  Įveskite #" << i+1 << " studento vardą: ";
         std::cin >> studentas.vardas;
-        std::cout << "  Iveskite #" << i+1 << " studento pavarde: ";
+        std::cout << "  Įveskite #" << i+1 << " studento pavardę: ";
         std::cin >> studentas.pavarde;
-        std::cout << "  Iveskite #" << i+1 << " studento egzamino rezultata: ";
+        std::cout << "  Įveskite #" << i+1 << " studento egzamino rezultatą: ";
         std::cin >> studentas.egz;
-        std::cout << "  Iveskite #" << i+1 << " studento namu darbu skaiciu: ";
+        std::cout << "  Įveskite #" << i+1 << " studento namų darbų skaičių: ";
         std::cin >> studentas.n;
         for(int v = 0; v < studentas.n; v++){
             int rezultatas = 0;
-            std::cout << "    Iveskite #" << v+1 << " namu darbo rezultata: ";
+            std::cout << "    Įveskite #" << v+1 << " namų darbo rezultatą: ";
             std::cin >> rezultatas;
             studentas.sum += rezultatas;
         }
@@ -39,7 +39,7 @@ int main() {
     for(int i = 0; i < m; i++){
         Studentas studentas = studentai[i];
         studentas.apskaiciuotiGalutini();
-        std::cout << studentas.vardas << '\t' << studentas.pavarde << '\t' << studentas.galutinis << std::endl;
+        std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' << studentas.galutinis << std::endl;
     }
     delete[] studentai;
     std::cin.get();
