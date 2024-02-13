@@ -1,15 +1,33 @@
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 
 struct Studentas{
     std::string vardas;
-    std::string pavarde;    
+    std::string pavarde;
+    int* namuDarbai = nullptr; //namų darbų dinaminis masyvas
     int n = 0; //namų darbų skaičius
     int sum = 0; //namų darbų rezultatų suma
     int egz = 0; //egzamino rezultatas
-    double galutinis = 0;
-    void apskaiciuotiGalutini(){
-        galutinis = ((sum/n) * 0.4) + (egz * 0.6);
+    double galutinisVid = 0;
+    double galutinisMed = 0;
+
+    void apskaiciuotiGalutiniVid() {
+        galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
+    }
+
+    void apskaiciuotiGalutiniMed() {
+        std::sort(namuDarbai, namuDarbai + n); //išrikiuoti didėjimo tvarka
+        if (n % 2 == 1) {
+            galutinisMed = namuDarbai[n / 2]; //jei namų darbų skaičius yra nelyginis, mediana per vidurį
+        } else {
+            galutinisMed = (namuDarbai[n / 2 - 1] + namuDarbai[n / 2]) / 2.0; //jei ne, mediana dviejų vidurinių skaičių aritmetinis vidurkis
+        }
+        galutinisMed = (galutinisMed * 0.4) + (egz * 0.6);
+    }
+
+    ~Studentas() {
+        delete[] namuDarbai;
     }
 };
 
@@ -18,29 +36,29 @@ int main() {
     std::cout << "Įveskite studentų skaičių: ";
     std::cin >> m;
     Studentas* studentai = new Studentas[m];
-    for(int i = 0; i < m; i++){
-        Studentas studentas;
-        std::cout << "  Įveskite #" << i+1 << " studento vardą: ";
-        std::cin >> studentas.vardas;
-        std::cout << "  Įveskite #" << i+1 << " studento pavardę: ";
-        std::cin >> studentas.pavarde;
-        std::cout << "  Įveskite #" << i+1 << " studento egzamino rezultatą: ";
-        std::cin >> studentas.egz;
-        std::cout << "  Įveskite #" << i+1 << " studento namų darbų skaičių: ";
-        std::cin >> studentas.n;
-        for(int v = 0; v < studentas.n; v++){
-            int rezultatas = 0;
-            std::cout << "    Įveskite #" << v+1 << " namų darbo rezultatą: ";
-            std::cin >> rezultatas;
-            studentas.sum += rezultatas;
+    for (int i = 0; i < m; i++) {
+        std::cout << "  Įveskite #" << i + 1 << " studento vardą: ";
+        std::cin >> studentai[i].vardas;
+        std::cout << "  Įveskite #" << i + 1 << " studento pavardę: ";
+        std::cin >> studentai[i].pavarde;
+        std::cout << "  Įveskite #" << i + 1 << " studento egzamino rezultatą: ";
+        std::cin >> studentai[i].egz;
+        std::cout << "  Įveskite #" << i + 1 << " studento namų darbų skaičių: ";
+        std::cin >> studentai[i].n;
+        studentai[i].namuDarbai = new int[studentai[i].n];
+        for (int v = 0; v < studentai[i].n; v++) {
+            std::cout << "    Įveskite #" << v + 1 << " namų darbo rezultatą: ";
+            std::cin >> studentai[i].namuDarbai[v];
+            studentai[i].sum += studentai[i].namuDarbai[v];
         }
-        studentai[i] = studentas;
+        studentai[i].apskaiciuotiGalutiniVid();
+        studentai[i].apskaiciuotiGalutiniMed();
     }
-    std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)" << std::endl << "-------------------------------------" << std::endl;
-    for(int i = 0; i < m; i++){
-        Studentas studentas = studentai[i];
-        studentas.apskaiciuotiGalutini();
-        std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' << std::fixed << std::setprecision(2) << studentas.galutinis << std::endl;
+    std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)\tGalutinis (Med.)" << std::endl << "-------------------------------------------------" << std::endl;
+    for (int i = 0; i < m; i++) {
+        std::cout << studentai[i].pavarde << '\t' << studentai[i].vardas << '\t' 
+                  << std::fixed << std::setprecision(2) << studentai[i].galutinisVid << "\t\t" 
+                  << studentai[i].galutinisMed << std::endl;
     }
     delete[] studentai;
     std::cin.get();
