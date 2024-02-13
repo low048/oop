@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 struct Studentas{
     std::string vardas;
@@ -39,7 +40,7 @@ int main() {
     for(int i = 0; i < m; i++){
         Studentas studentas = studentai[i];
         studentas.apskaiciuotiGalutini();
-        std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' << studentas.galutinis << std::endl;
+        std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' << std::fixed << std::setprecision(2) << studentas.galutinis << std::endl;
     }
     delete[] studentai;
     std::cin.get();
