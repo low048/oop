@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <limits>
+#include <string>
 
 struct Studentas{
     std::string vardas;
@@ -54,7 +55,15 @@ int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
     }
 }
 
+void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
+    std::string vardai[] = {"Jonas", "Petras", "Antanas", "Kazys", "Simas"};
+    std::string pavardes[] = {"Jonaitis", "Petraitis", "Antanaitis", "Kazlauskas", "Simaitis"};
+    vardas = vardai[rand() % 5];
+    pavarde = pavardes[rand() % 5];
+}
+
 int main() {
+    srand(time(0));
     Studentas* studentai = nullptr; //dinaminis studentų masyvas
     int m = 0; //studentų skaicius
     int meniuPasirinkimas = 0;
@@ -71,6 +80,11 @@ int main() {
                 Studentas* temp = new Studentas[m + 1];
                 for (int i = 0; i < m; ++i) {
                     temp[i] = studentai[i]; //kopijuoti studentai[] į temp[]
+                    //gilus masyvo kopijavimas, kadangi prieš tai buvo kopijuojama tik rodyklė į masyvą, todėl lūždavo programa po destruktoriaus iškvietimo
+                    temp[i].namuDarbai = new int[temp[i].n]; 
+                    for (int j = 0; j < temp[i].n; ++j) {
+                        temp[i].namuDarbai[j] = studentai[i].namuDarbai[j];
+                    }
                 }
                 if (studentai != nullptr) {
                     delete[] studentai; //ištrinti studentai[]
@@ -105,7 +119,48 @@ int main() {
                 studentai[m].apskaiciuotiGalutiniVid();
                 studentai[m].apskaiciuotiGalutiniMed();
                 m++;
+                break;
             }
+            case 2:
+                //atsitiktinai generuojami tik pažymiai
+                break;
+            case 3: {
+                std::cout << "Įveskite studentų skaičių: ";
+                int studentuSkaicius = patikrintiSkaiciu();
+                std::cout << "Įveskite maksimalų namų darbų skaičių: ";
+                int maxNamuDarbu = patikrintiSkaiciu();
+                Studentas* temp = new Studentas[m + studentuSkaicius];
+                for (int i = 0; i < m; ++i) {
+                    temp[i] = studentai[i];
+                    temp[i].namuDarbai = new int[temp[i].n]; 
+                    for (int j = 0; j < temp[i].n; ++j) {
+                        temp[i].namuDarbai[j] = studentai[i].namuDarbai[j];
+                    }
+                }
+                if (studentai != nullptr){
+                    delete[] studentai;
+                }
+                studentai = temp;
+                for (int i = m; i < m + studentuSkaicius; ++i) {
+                    generuotiVardaIrPavarde(studentai[i].vardas, studentai[i].pavarde);
+                    studentai[i].egz = rand() % 10 + 1;
+                    int n = rand() % maxNamuDarbu + 1;
+                    studentai[i].namuDarbai = new int[n];
+                    studentai[i].n = n;
+                    for (int v = 0; v < n; v++) {
+                        studentai[i].namuDarbai[v] = rand() % 10 + 1;
+                        studentai[i].sum += studentai[i].namuDarbai[v];
+                    }
+                    studentai[i].apskaiciuotiGalutiniVid();
+                    studentai[i].apskaiciuotiGalutiniMed();
+                }
+                m += studentuSkaicius;
+                break;
+            }
+            case 4:
+                break;
+            default:
+                std::cout << "Netinkamas pasirinkimas, bandykite iš naujo.\n";
         }
     } while(meniuPasirinkimas != 4);
     std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)\tGalutinis (Med.)" << std::endl << "-------------------------------------------------" << std::endl;
