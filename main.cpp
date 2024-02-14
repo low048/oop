@@ -77,6 +77,7 @@ int main() {
         meniuPasirinkimas = patikrintiSkaiciu(false, true);
         switch(meniuPasirinkimas){
             case 1:{
+                //duomenys įvedami ranka
                 Studentas* temp = new Studentas[m + 1];
                 for (int i = 0; i < m; ++i) {
                     temp[i] = studentai[i]; //kopijuoti studentai[] į temp[]
@@ -100,7 +101,7 @@ int main() {
                 studentai[m].namuDarbai = new int[dydis];
                 studentai[m].n = 0;
                 while (true) {
-                    std::cout << "  Įveskite #" << studentai[m].n + 1 << " namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
+                    std::cout << "    Įveskite #" << studentai[m].n + 1 << " namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
                     int pazymys = patikrintiSkaiciu(true);
                     if (pazymys == -1)
                         break;
@@ -121,13 +122,43 @@ int main() {
                 m++;
                 break;
             }
-            case 2:
+            case 2:{
                 //atsitiktinai generuojami tik pažymiai
+                Studentas* temp = new Studentas[m + 1];
+                for (int i = 0; i < m; ++i) {
+                    temp[i] = studentai[i];
+                    temp[i].namuDarbai = new int[temp[i].n]; 
+                    for (int j = 0; j < temp[i].n; ++j) {
+                        temp[i].namuDarbai[j] = studentai[i].namuDarbai[j];
+                    }
+                }
+                if (studentai != nullptr) {
+                    delete[] studentai;
+                }
+                studentai = temp;
+                std::cout << "  Įveskite #" << m + 1 << " studento vardą: ";
+                std::cin >> studentai[m].vardas;
+                std::cout << "  Įveskite #" << m + 1 << " studento pavardę: ";
+                std::cin >> studentai[m].pavarde;
+                std::cout << "  Įveskite #" << m + 1 << " studento egzamino rezultatą: ";
+                studentai[m].egz = patikrintiSkaiciu(true);
+                std::cout << "  Įveskite namų darbų skaičių: ";
+                studentai[m].n = patikrintiSkaiciu();
+                studentai[m].namuDarbai = new int[studentai[m].n];
+                for (int v = 0; v < studentai[m].n; v++) {
+                    studentai[m].namuDarbai[v] = rand() % 10 + 1;
+                    studentai[m].sum += studentai[m].namuDarbai[v];
+                }
+                studentai[m].apskaiciuotiGalutiniVid();
+                studentai[m].apskaiciuotiGalutiniMed();
+                m++;
                 break;
-            case 3: {
-                std::cout << "Įveskite studentų skaičių: ";
+            }
+            case 3:{
+                //atsitiktinai generuojami studento vardas, pavardė bei pažymiai
+                std::cout << "  Įveskite studentų skaičių: ";
                 int studentuSkaicius = patikrintiSkaiciu();
-                std::cout << "Įveskite maksimalų namų darbų skaičių: ";
+                std::cout << "  Įveskite maksimalų namų darbų skaičių: ";
                 int maxNamuDarbu = patikrintiSkaiciu();
                 Studentas* temp = new Studentas[m + studentuSkaicius];
                 for (int i = 0; i < m; ++i) {
