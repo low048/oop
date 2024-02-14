@@ -14,16 +14,8 @@ struct Studentas{
     double galutinisVid = 0;
     double galutinisMed = 0;
 
-    void apskaiciuotiGalutiniVid() {
+    void apskaiciuotiGalutini() {
         if (n > 0) {
-            galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
-        } else {
-            galutinisVid = (egz * 0.6);
-        }
-    }
-
-    void apskaiciuotiGalutiniMed() {
-        if(n > 0){
             std::sort(namuDarbai, namuDarbai + n); //išrikiuoti didėjimo tvarka
             if (n % 2 == 1) {
                 galutinisMed = namuDarbai[n / 2]; //jei namų darbų skaičius yra nelyginis, mediana per vidurį
@@ -31,7 +23,9 @@ struct Studentas{
                 galutinisMed = (namuDarbai[n / 2 - 1] + namuDarbai[n / 2]) / 2.0; //jei ne, mediana dviejų vidurinių skaičių aritmetinis vidurkis
             }
             galutinisMed = (galutinisMed * 0.4) + (egz * 0.6);
+            galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
         } else {
+            galutinisVid = (egz * 0.6);
             galutinisMed = (egz * 0.6);
         }
     }
@@ -118,8 +112,7 @@ int main() {
                     studentai[m].sum += pazymys;
                     studentai[m].n++;
                 }
-                studentai[m].apskaiciuotiGalutiniVid();
-                studentai[m].apskaiciuotiGalutiniMed();
+                studentai[m].apskaiciuotiGalutini();
                 m++;
                 break;
             }
@@ -150,8 +143,7 @@ int main() {
                     studentai[m].namuDarbai[v] = rand() % 10 + 1;
                     studentai[m].sum += studentai[m].namuDarbai[v];
                 }
-                studentai[m].apskaiciuotiGalutiniVid();
-                studentai[m].apskaiciuotiGalutiniMed();
+                studentai[m].apskaiciuotiGalutini();
                 m++;
                 break;
             }
@@ -183,8 +175,7 @@ int main() {
                         studentai[i].namuDarbai[v] = rand() % 10 + 1;
                         studentai[i].sum += studentai[i].namuDarbai[v];
                     }
-                    studentai[i].apskaiciuotiGalutiniVid();
-                    studentai[i].apskaiciuotiGalutiniMed();
+                    studentai[i].apskaiciuotiGalutini();
                 }
                 m += studentuSkaicius;
                 break;

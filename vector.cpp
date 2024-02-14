@@ -14,16 +14,8 @@ struct Studentas{
     double galutinisVid = 0;
     double galutinisMed = 0;
 
-    void apskaiciuotiGalutiniVid() {
+    void apskaiciuotiGalutini() {
         if(!namuDarbai.empty()){
-            galutinisVid = ((double)sum / namuDarbai.size() * 0.4) + (egz * 0.6);
-        } else {
-            galutinisVid = (egz * 0.6);
-        }
-    }
-
-    void apskaiciuotiGalutiniMed() {
-        if (!namuDarbai.empty()) {
             std::sort(namuDarbai.begin(), namuDarbai.end()); //išrikiuoti didėjimo tvarka
             size_t n = namuDarbai.size();
             if (n % 2 == 1) {
@@ -32,8 +24,10 @@ struct Studentas{
                 galutinisMed = (namuDarbai[n / 2 - 1] + namuDarbai[n / 2]) / 2.0; //jei ne, mediana dviejų vidurinių skaičių aritmetinis vidurkis
             }
             galutinisMed = (galutinisMed * 0.4) + (egz * 0.6);
+            galutinisVid = ((double)sum / n * 0.4) + (egz * 0.6);
         } else {
             galutinisMed = (egz * 0.6);
+            galutinisVid = (egz * 0.6);
         }
     }
 };
@@ -89,8 +83,7 @@ int main() {
                     naujasStudentas.namuDarbai.push_back(pazymys);
                     naujasStudentas.sum += pazymys;
                 }
-                naujasStudentas.apskaiciuotiGalutiniVid();
-                naujasStudentas.apskaiciuotiGalutiniMed();
+                naujasStudentas.apskaiciuotiGalutini();
                 studentai.push_back(naujasStudentas);
                 break;
             }
@@ -110,8 +103,7 @@ int main() {
                     naujasStudentas.namuDarbai.push_back(pazymys);
                     naujasStudentas.sum += pazymys;
                 }
-                naujasStudentas.apskaiciuotiGalutiniVid();
-                naujasStudentas.apskaiciuotiGalutiniMed();
+                naujasStudentas.apskaiciuotiGalutini();
                 studentai.push_back(naujasStudentas);
                 break;
             }
@@ -131,8 +123,7 @@ int main() {
                         naujasStudentas.namuDarbai.push_back(pazymys);
                         naujasStudentas.sum += pazymys;
                     }
-                    naujasStudentas.apskaiciuotiGalutiniVid();
-                    naujasStudentas.apskaiciuotiGalutiniMed();
+                    naujasStudentas.apskaiciuotiGalutini();
                     studentai.push_back(naujasStudentas);
                 }
                 break;
