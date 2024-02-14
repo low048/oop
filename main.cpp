@@ -44,7 +44,7 @@ int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
     int skaicius;
     while (true) {
         std::cin >> skaicius;
-        if (std::cin.fail() || skaicius < 0 || (yraPazymys && (skaicius > 10)) || (yraMeniu && (skaicius > 4))) {
+        if (std::cin.fail() || (!yraPazymys && skaicius < 0) || (yraPazymys && (skaicius > 10 || skaicius < -1)) || (yraMeniu && skaicius > 4)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
@@ -82,13 +82,25 @@ int main() {
                 std::cin >> studentai[m].pavarde;
                 std::cout << "  Įveskite #" << m + 1 << " studento egzamino rezultatą: ";
                 studentai[m].egz = patikrintiSkaiciu(true);
-                std::cout << "  Įveskite #" << m + 1 << " studento namų darbų skaičių: ";
-                studentai[m].n = patikrintiSkaiciu();
-                studentai[m].namuDarbai = new int[studentai[m].n];
-                for (int v = 0; v < studentai[m].n; v++) {
-                    std::cout << "    Įveskite #" << v + 1 << " namų darbo rezultatą: ";
-                    studentai[m].namuDarbai[v] = patikrintiSkaiciu(true);
-                    studentai[m].sum += studentai[m].namuDarbai[v];
+                int dydis = 4; //pradinė namų darbų masyvo talpa
+                studentai[m].namuDarbai = new int[dydis];
+                studentai[m].n = 0;
+                while (true) {
+                    std::cout << "  Įveskite #" << studentai[m].n + 1 << " namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
+                    int pazymys = patikrintiSkaiciu(true);
+                    if (pazymys == -1)
+                        break;
+                    if (studentai[m].n == dydis) { //jei namų darbų skaičius yra lygus talpai, padidinti masyvą
+                        dydis *= 2;
+                        int* tempPazymiai = new int[dydis];
+                        for (int i = 0; i < studentai[m].n; ++i) {
+                            tempPazymiai[i] = studentai[m].namuDarbai[i];
+                        }
+                        delete[] studentai[m].namuDarbai;
+                        studentai[m].namuDarbai = tempPazymiai;
+                    }
+                    studentai[m].namuDarbai[studentai[m].n] = pazymys;
+                    studentai[m].n++;
                 }
                 studentai[m].apskaiciuotiGalutiniVid();
                 studentai[m].apskaiciuotiGalutiniMed();
