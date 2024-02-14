@@ -40,11 +40,11 @@ struct Studentas{
     }
 };
 
-int patikrintiSkaiciu(bool yraPazymys = false) {
+int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
     int skaicius;
     while (true) {
         std::cin >> skaicius;
-        if (std::cin.fail() || skaicius < 0 || (yraPazymys && (skaicius > 10))) {
+        if (std::cin.fail() || skaicius < 0 || (yraPazymys && (skaicius > 10)) || (yraMeniu && (skaicius > 4))) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
@@ -55,27 +55,47 @@ int patikrintiSkaiciu(bool yraPazymys = false) {
 }
 
 int main() {
-    std::cout << "Įveskite studentų skaičių: ";
-    int m = patikrintiSkaiciu(); //studentų skaicius
-    Studentas* studentai = new Studentas[m];
-    for (int i = 0; i < m; i++) {
-        std::cout << "  Įveskite #" << i + 1 << " studento vardą: ";
-        std::cin >> studentai[i].vardas;
-        std::cout << "  Įveskite #" << i + 1 << " studento pavardę: ";
-        std::cin >> studentai[i].pavarde;
-        std::cout << "  Įveskite #" << i + 1 << " studento egzamino rezultatą: ";
-        studentai[i].egz = patikrintiSkaiciu(true);
-        std::cout << "  Įveskite #" << i + 1 << " studento namų darbų skaičių: ";
-        studentai[i].n = patikrintiSkaiciu();
-        studentai[i].namuDarbai = new int[studentai[i].n];
-        for (int v = 0; v < studentai[i].n; v++) {
-            std::cout << "    Įveskite #" << v + 1 << " namų darbo rezultatą: ";
-            studentai[i].namuDarbai[v] = patikrintiSkaiciu(true);
-            studentai[i].sum += studentai[i].namuDarbai[v];
+    Studentas* studentai = nullptr; //dinaminis studentų masyvas
+    int m = 0; //studentų skaicius
+    int meniuPasirinkimas = 0;
+    do {
+        std::cout << "Meniu:\n"
+            << "1 - Įvesti duomenis ranka\n"
+            << "2 - Generuoti pažymius\n"
+            << "3 - Generuoti pažymius ir studentų vardus, pavardes\n"
+            << "4 - Baigti darbą\n"
+            << "Pasirinkimas: ";
+        meniuPasirinkimas = patikrintiSkaiciu(false, true);
+        switch(meniuPasirinkimas){
+            case 1:{
+                Studentas* temp = new Studentas[m + 1];
+                for (int i = 0; i < m; ++i) {
+                    temp[i] = studentai[i]; //kopijuoti studentai[] į temp[]
+                }
+                if (studentai != nullptr) {
+                    delete[] studentai; //ištrinti studentai[]
+                }
+                studentai = temp;
+                std::cout << "  Įveskite #" << m + 1 << " studento vardą: ";
+                std::cin >> studentai[m].vardas;
+                std::cout << "  Įveskite #" << m + 1 << " studento pavardę: ";
+                std::cin >> studentai[m].pavarde;
+                std::cout << "  Įveskite #" << m + 1 << " studento egzamino rezultatą: ";
+                studentai[m].egz = patikrintiSkaiciu(true);
+                std::cout << "  Įveskite #" << m + 1 << " studento namų darbų skaičių: ";
+                studentai[m].n = patikrintiSkaiciu();
+                studentai[m].namuDarbai = new int[studentai[m].n];
+                for (int v = 0; v < studentai[m].n; v++) {
+                    std::cout << "    Įveskite #" << v + 1 << " namų darbo rezultatą: ";
+                    studentai[m].namuDarbai[v] = patikrintiSkaiciu(true);
+                    studentai[m].sum += studentai[m].namuDarbai[v];
+                }
+                studentai[m].apskaiciuotiGalutiniVid();
+                studentai[m].apskaiciuotiGalutiniMed();
+                m++;
+            }
         }
-        studentai[i].apskaiciuotiGalutiniVid();
-        studentai[i].apskaiciuotiGalutiniMed();
-    }
+    } while(meniuPasirinkimas != 4);
     std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)\tGalutinis (Med.)" << std::endl << "-------------------------------------------------" << std::endl;
     for (int i = 0; i < m; i++) {
         std::cout << studentai[i].pavarde << '\t' << studentai[i].vardas << '\t' 
