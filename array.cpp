@@ -115,6 +115,7 @@ int main() {
                         studentai[m].namuDarbai = tempPazymiai;
                     }
                     studentai[m].namuDarbai[studentai[m].n] = pazymys;
+                    studentai[m].sum += pazymys;
                     studentai[m].n++;
                 }
                 studentai[m].apskaiciuotiGalutiniVid();
