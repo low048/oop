@@ -4,6 +4,8 @@
 #include <limits>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 struct Studentas{
     std::string vardas;
@@ -36,7 +38,7 @@ int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
     int skaicius;
     while (true) {
         std::cin >> skaicius;
-        if (std::cin.fail() || (!yraPazymys && skaicius < 0) || (yraPazymys && (skaicius > 10 || skaicius < -1)) || (yraMeniu && skaicius > 4)) {
+        if (std::cin.fail() || (!yraPazymys && skaicius < 0) || (yraPazymys && (skaicius > 10 || skaicius < -1)) || (yraMeniu && skaicius > 5)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
@@ -53,6 +55,35 @@ void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
     pavarde = pavardes[rand() % 5];
 }
 
+void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
+    std::ifstream failas(failoPavadinimas);
+    if (!failas.is_open()) {
+        std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << std::endl;
+        return;
+    }
+    std::string eilute;
+    std::getline(failas, eilute);
+    
+    while (std::getline(failas, eilute)) {
+        std::istringstream eilutesSrautas(eilute);
+        Studentas naujasStudentas;
+        eilutesSrautas >> naujasStudentas.vardas >> naujasStudentas.pavarde;
+        int pazymys;
+        while (eilutesSrautas >> pazymys) {
+            naujasStudentas.namuDarbai.push_back(pazymys);
+            naujasStudentas.sum += pazymys;
+        }
+        if (!naujasStudentas.namuDarbai.empty()) {
+            naujasStudentas.egz = naujasStudentas.namuDarbai.back();
+            naujasStudentas.sum -= naujasStudentas.egz;
+            naujasStudentas.namuDarbai.pop_back(); //pašalinti paskutinį pažymį, kadangi jis yra egzamino įvertinimas
+        }
+        naujasStudentas.apskaiciuotiGalutini();
+        studentai.push_back(naujasStudentas);
+    }
+    failas.close();
+}
+
 int main() {
     srand(time(0));
     std::vector<Studentas> studentai;
@@ -62,7 +93,8 @@ int main() {
             << "1 - Įvesti duomenis ranka\n"
             << "2 - Generuoti pažymius\n"
             << "3 - Generuoti pažymius ir studentų vardus, pavardes\n"
-            << "4 - Baigti darbą\n"
+            << "4 - Nuskaityti studentų duomenis iš failo\n"
+            << "5 - Baigti darbą\n"
             << "Pasirinkimas: ";
         meniuPasirinkimas = patikrintiSkaiciu(false, true);
         switch(meniuPasirinkimas){
@@ -87,7 +119,7 @@ int main() {
                 studentai.push_back(naujasStudentas);
                 break;
             }
-            case 2:{
+            case 2: {
                 //atsitiktinai generuojami tik pažymiai
                 Studentas naujasStudentas;
                 std::cout << "  Įveskite studento vardą: ";
@@ -107,7 +139,7 @@ int main() {
                 studentai.push_back(naujasStudentas);
                 break;
             }
-            case 3:{
+            case 3: {
                 //atsitiktinai generuojami studento vardas, pavardė bei pažymiai
                 std::cout << "  Įveskite studentų skaičių: ";
                 int studentuSkaicius = patikrintiSkaiciu();
@@ -128,12 +160,17 @@ int main() {
                 }
                 break;
             }
-            case 4:
+            case 4: {
+                std::string failoVardas = "studentai10000.txt";
+                skaitytiIsFailo(studentai, failoVardas);
+                break;
+            }
+            case 5:
                 break;
             default:
                 std::cout << "Netinkamas pasirinkimas, bandykite iš naujo.\n";
         }
-    } while(meniuPasirinkimas != 4);
+    } while(meniuPasirinkimas != 5);
     std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)\tGalutinis (Med.)" << std::endl << "-------------------------------------------------" << std::endl;
     for (const auto& studentas : studentai) {
         std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' 
