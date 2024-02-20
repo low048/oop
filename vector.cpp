@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <climits>
 
 struct Studentas{
     std::string vardas;
@@ -34,11 +35,11 @@ struct Studentas{
     }
 };
 
-int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
+int patikrintiSkaiciu(int maziausias, int didziausias) {
     int skaicius;
     while (true) {
         std::cin >> skaicius;
-        if (std::cin.fail() || (!yraPazymys && skaicius < 0) || (yraPazymys && (skaicius > 10 || skaicius < -1)) || (yraMeniu && skaicius > 5)) {
+        if (std::cin.fail() || skaicius < maziausias || skaicius > didziausias) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
@@ -63,7 +64,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     }
     std::string eilute;
     std::getline(failas, eilute);
-    
+
     while (std::getline(failas, eilute)) {
         std::istringstream eilutesSrautas(eilute);
         Studentas naujasStudentas;
@@ -96,7 +97,7 @@ int main() {
             << "4 - Nuskaityti studentų duomenis iš failo\n"
             << "5 - Baigti darbą\n"
             << "Pasirinkimas: ";
-        meniuPasirinkimas = patikrintiSkaiciu(false, true);
+        meniuPasirinkimas = patikrintiSkaiciu(1, 5);
         switch(meniuPasirinkimas){
            case 1: {
                 //duomenys įvedami ranka
@@ -106,10 +107,10 @@ int main() {
                 std::cout << "  Įveskite studento pavardę: ";
                 std::cin >> naujasStudentas.pavarde;
                 std::cout << "  Įveskite studento egzamino rezultatą: ";
-                naujasStudentas.egz = patikrintiSkaiciu(true);
+                naujasStudentas.egz = patikrintiSkaiciu(0, 10);
                 while (true) {
                     std::cout << "    Įveskite namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
-                    int pazymys = patikrintiSkaiciu(true);
+                    int pazymys = patikrintiSkaiciu(-1, 10);
                     if (pazymys == -1)
                         break;
                     naujasStudentas.namuDarbai.push_back(pazymys);
@@ -127,9 +128,9 @@ int main() {
                 std::cout << "  Įveskite studento pavardę: ";
                 std::cin >> naujasStudentas.pavarde;
                 std::cout << "  Įveskite studento egzamino rezultatą: ";
-                naujasStudentas.egz = patikrintiSkaiciu(true);
+                naujasStudentas.egz = patikrintiSkaiciu(0, 10);
                 std::cout << "  Įveskite namų darbų skaičių: ";
-                int n = patikrintiSkaiciu();
+                int n = patikrintiSkaiciu(0, INT_MAX);
                 for (int v = 0; v < n; v++) {
                     int pazymys = rand() % 10 + 1;
                     naujasStudentas.namuDarbai.push_back(pazymys);
@@ -142,9 +143,9 @@ int main() {
             case 3: {
                 //atsitiktinai generuojami studento vardas, pavardė bei pažymiai
                 std::cout << "  Įveskite studentų skaičių: ";
-                int studentuSkaicius = patikrintiSkaiciu();
+                int studentuSkaicius = patikrintiSkaiciu(0, INT_MAX);
                 std::cout << "  Įveskite maksimalų namų darbų skaičių: ";
-                int maxNamuDarbu = patikrintiSkaiciu();
+                int maxNamuDarbu = patikrintiSkaiciu(0, INT_MAX);
                 for (int i = 0; i < studentuSkaicius; i++) {
                     Studentas naujasStudentas;
                     generuotiVardaIrPavarde(naujasStudentas.vardas, naujasStudentas.pavarde);
@@ -165,8 +166,34 @@ int main() {
                 skaitytiIsFailo(studentai, failoVardas);
                 break;
             }
-            case 5:
+            case 5:{
+                std::cout << "Rūšiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
+                int rusiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                switch (rusiavimoPasirinkimas) {
+                    case 1:
+                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                            return a.vardas < b.vardas; });
+                        break;
+                    case 2:
+                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                            return a.pavarde < b.pavarde; });
+                        break;
+                    case 3:
+                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                            return a.galutinisVid < b.galutinisVid; });
+                        break;
+                    case 4:
+                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                            return a.galutinisMed < b.galutinisMed; });
+                        break;
+                    default:
+                        std::cout << "Netinkamas pasirinkimas, naudojamas numatytasis (Vardas).\n";
+                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                            return a.vardas < b.vardas; });
+                }
                 break;
+            }
+
             default:
                 std::cout << "Netinkamas pasirinkimas, bandykite iš naujo.\n";
         }
