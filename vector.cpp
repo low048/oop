@@ -47,8 +47,8 @@ int patikrintiSkaiciu(bool yraPazymys = false, bool yraMeniu = false) {
 }
 
 void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
-    std::string vardai[] = {"Jonas", "Petras", "Antanas", "Kazys", "Simas"};
-    std::string pavardes[] = {"Jonaitis", "Petraitis", "Antanaitis", "Kazlauskas", "Simaitis"};
+    std::vector<std::string> vardai{"Jonas", "Petras", "Antanas", "Kazys", "Simas"};
+    std::vector<std::string> pavardes{"Jonaitis", "Petraitis", "Antanaitis", "Kazlauskas", "Simaitis"};
     vardas = vardai[rand() % 5];
     pavarde = pavardes[rand() % 5];
 }
