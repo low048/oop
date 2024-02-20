@@ -1,7 +1,4 @@
-all: vector.exe array.exe
+all: vector.exe
 
 vector.exe: vector.cpp
 	g++ vector.cpp -o vector.exe
-
-array.exe: array.cpp
-	g++ array.cpp -o array.exe
