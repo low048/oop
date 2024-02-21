@@ -176,6 +176,7 @@ int main() {
                 //darbo baigimas, rūšiavimas
                 std::cout << "Rūšiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                 int rusiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                auto start = std::chrono::high_resolution_clock::now();
                 switch (rusiavimoPasirinkimas) {
                     case 1:
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
@@ -198,6 +199,7 @@ int main() {
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
                             return a.vardas > b.vardas; });
                 }
+                std::cout << "Rūšiavimas užtruko " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms\n";
                 break;
             }
             default:
@@ -212,11 +214,10 @@ int main() {
         std::cin >> failoPavadinimas;
         std::ofstream rezultatuFailas(failoPavadinimas);
         if (rezultatuFailas.is_open()) {
-            rezultatuFailas << std::left << std::setw(14) << "Pavardė" << std::setw(14) << "Vardas"
-                            << std::setw(18) << "Galutinis (Vid.)" << std::setw(18) << "Galutinis (Med.)\n"
-                            << "-----------------------------------------------------------------\n";
+            rezultatuFailas << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
+            rezultatuFailas << "-----------------------------------------------------------------\n";
             for (const auto& studentas : studentai) {
-                rezultatuFailas << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
+                rezultatuFailas << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
                                 << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
                                 << std::setw(18) << studentas.galutinisMed << std::endl;
             }
@@ -226,11 +227,10 @@ int main() {
             std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << std::endl;
         }
     } else {
-        std::cout << std::left << std::setw(14) << "Pavardė" << std::setw(14) << "Vardas"
-                  << std::setw(18) << "Galutinis (Vid.)" << std::setw(18) << "Galutinis (Med.)\n"
-                  << "-----------------------------------------------------------------\n";
+        std::cout << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
+        std::cout << "-----------------------------------------------------------------\n";
         for (const auto& studentas : studentai) {
-            std::cout << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
+            std::cout << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
                       << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
                       << std::setw(18) << studentas.galutinisMed << std::endl;
         }
