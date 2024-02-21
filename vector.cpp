@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <climits>
+#include <chrono>
 
 struct Studentas{
     std::string vardas;
@@ -57,13 +58,14 @@ void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
 }
 
 void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
+    auto start = std::chrono::high_resolution_clock::now();
     std::ifstream failas(failoPavadinimas);
     if (!failas.is_open()) {
         std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << std::endl;
         return;
     }
     std::string eilute;
-    std::getline(failas, eilute);
+    std::getline(failas, eilute); //praleisti eilutę su antraštėmis
 
     while (std::getline(failas, eilute)) {
         std::istringstream eilutesSrautas(eilute);
@@ -83,6 +85,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
         studentai.push_back(naujasStudentas);
     }
     failas.close();
+    std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms\n";
 }
 
 int main() {
@@ -162,47 +165,75 @@ int main() {
                 break;
             }
             case 4: {
-                std::string failoVardas = "studentai10000.txt";
-                skaitytiIsFailo(studentai, failoVardas);
+                //failo nuskaitymas
+                std::string failoPavadinimas;
+                std::cout << "  Įveskite failo pavadinimą: ";
+                std::cin >> failoPavadinimas;
+                skaitytiIsFailo(studentai, failoPavadinimas);
                 break;
             }
             case 5:{
+                //darbo baigimas, rūšiavimas
                 std::cout << "Rūšiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                 int rusiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
                 switch (rusiavimoPasirinkimas) {
                     case 1:
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.vardas < b.vardas; });
+                            return a.vardas > b.vardas; });
                         break;
                     case 2:
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.pavarde < b.pavarde; });
+                            return a.pavarde > b.pavarde; });
                         break;
                     case 3:
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.galutinisVid < b.galutinisVid; });
+                            return a.galutinisVid > b.galutinisVid; });
                         break;
                     case 4:
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.galutinisMed < b.galutinisMed; });
+                            return a.galutinisMed > b.galutinisMed; });
                         break;
                     default:
                         std::cout << "Netinkamas pasirinkimas, naudojamas numatytasis (Vardas).\n";
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.vardas < b.vardas; });
+                            return a.vardas > b.vardas; });
                 }
                 break;
             }
-
             default:
                 std::cout << "Netinkamas pasirinkimas, bandykite iš naujo.\n";
         }
     } while(meniuPasirinkimas != 5);
-    std::cout << std::endl << "Pavardė\tVardas\tGalutinis (Vid.)\tGalutinis (Med.)" << std::endl << "-------------------------------------------------" << std::endl;
-    for (const auto& studentas : studentai) {
-        std::cout << studentas.pavarde << '\t' << studentas.vardas << '\t' 
-                  << std::fixed << std::setprecision(2) << studentas.galutinisVid << "\t\t" 
-                  << studentas.galutinisMed << std::endl;
+    std::cout << "Išvesti į:\n1 - Konsolę\n2 - Failą\nPasirinkimas: ";
+    int isvestiesPasirinkimas = patikrintiSkaiciu(1, 2);
+    if (isvestiesPasirinkimas == 2) {
+        std::cout << "Įveskite failo pavadinimą: ";
+        std::string failoPavadinimas;
+        std::cin >> failoPavadinimas;
+        std::ofstream rezultatuFailas(failoPavadinimas);
+        if (rezultatuFailas.is_open()) {
+            rezultatuFailas << std::left << std::setw(14) << "Pavardė" << std::setw(14) << "Vardas"
+                            << std::setw(18) << "Galutinis (Vid.)" << std::setw(18) << "Galutinis (Med.)\n"
+                            << "-----------------------------------------------------------------\n";
+            for (const auto& studentas : studentai) {
+                rezultatuFailas << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
+                                << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
+                                << std::setw(18) << studentas.galutinisMed << std::endl;
+            }
+            rezultatuFailas.close();
+            std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << std::endl;
+        } else {
+            std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << std::endl;
+        }
+    } else {
+        std::cout << std::left << std::setw(14) << "Pavardė" << std::setw(14) << "Vardas"
+                  << std::setw(18) << "Galutinis (Vid.)" << std::setw(18) << "Galutinis (Med.)\n"
+                  << "-----------------------------------------------------------------\n";
+        for (const auto& studentas : studentai) {
+            std::cout << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
+                      << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
+                      << std::setw(18) << studentas.galutinisMed << std::endl;
+        }
     }
     std::cin.get();
     std::cin.get();
