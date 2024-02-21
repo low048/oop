@@ -61,7 +61,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     auto start = std::chrono::high_resolution_clock::now();
     std::ifstream failas(failoPavadinimas);
     if (!failas.is_open()) {
-        std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << std::endl;
+        std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << '\n';
         return;
     }
     std::string eilute;
@@ -82,7 +82,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
             naujasStudentas.namuDarbai.pop_back(); //pašalinti paskutinį pažymį, kadangi jis yra egzamino įvertinimas
         }
         naujasStudentas.apskaiciuotiGalutini();
-        studentai.push_back(naujasStudentas);
+        studentai.push_back(std::move(naujasStudentas));
     }
     failas.close();
     std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms\n";
@@ -219,12 +219,12 @@ int main() {
             for (const auto& studentas : studentai) {
                 rezultatuFailas << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
                                 << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
-                                << std::setw(18) << studentas.galutinisMed << std::endl;
+                                << std::setw(18) << studentas.galutinisMed << '\n';
             }
             rezultatuFailas.close();
-            std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << std::endl;
+            std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
         } else {
-            std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << std::endl;
+            std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
         }
     } else {
         std::cout << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
@@ -232,7 +232,7 @@ int main() {
         for (const auto& studentas : studentai) {
             std::cout << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
                       << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
-                      << std::setw(18) << studentas.galutinisMed << std::endl;
+                      << std::setw(18) << studentas.galutinisMed << '\n';
         }
     }
     std::cin.get();
