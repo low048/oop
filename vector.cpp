@@ -112,7 +112,7 @@ int main() {
                 std::cout << "  Įveskite studento egzamino rezultatą: ";
                 naujasStudentas.egz = patikrintiSkaiciu(0, 10);
                 while (true) {
-                    std::cout << "    Įveskite namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
+                    std::cout << "    Įveskite #" << naujasStudentas.namuDarbai.size() + 1 << " namų darbo rezultatą (0-10), -1 baigia įvedimą: ";
                     int pazymys = patikrintiSkaiciu(-1, 10);
                     if (pazymys == -1)
                         break;
