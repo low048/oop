@@ -97,33 +97,12 @@ int main() {
                 break;
             }
             case 5:{
-                //darbo baigimas, rūšiavimas
-                std::cout << "Rūšiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
-                int rusiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                //darbo baigimas, rikiavimas
+                std::cout << "Rikiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
+                int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
                 auto start = std::chrono::high_resolution_clock::now();
-                switch (rusiavimoPasirinkimas) {
-                    case 1:
-                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.vardas > b.vardas; });
-                        break;
-                    case 2:
-                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.pavarde > b.pavarde; });
-                        break;
-                    case 3:
-                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.galutinisVid > b.galutinisVid; });
-                        break;
-                    case 4:
-                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.galutinisMed > b.galutinisMed; });
-                        break;
-                    default:
-                        std::cout << "Netinkamas pasirinkimas, naudojamas numatytasis (Vardas).\n";
-                        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                            return a.vardas > b.vardas; });
-                }
-                std::cout << "Rūšiavimas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
+                rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
+                std::cout << "Rikiavimas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
                 break;
             }
             default:

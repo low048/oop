@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <chrono>
+#include <algorithm>
 
 
 int patikrintiSkaiciu(int maziausias, int didziausias) {
@@ -57,4 +58,29 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     }
     failas.close();
     std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
+}
+
+void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas) {
+    switch (rikiavimoPasirinkimas) {
+        case 1:
+            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                return a.vardas > b.vardas; });
+            break;
+        case 2:
+            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                return a.pavarde > b.pavarde; });
+            break;
+        case 3:
+            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                return a.galutinisVid > b.galutinisVid; });
+            break;
+        case 4:
+            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                return a.galutinisMed > b.galutinisMed; });
+            break;
+        default:
+            std::cout << "Netinkamas pasirinkimas, naudojamas numatytasis (Vardas).\n";
+            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+                return a.vardas > b.vardas; });
+    }
 }
