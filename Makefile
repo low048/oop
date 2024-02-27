@@ -1,4 +1,4 @@
-all: vector.exe
+all: program.exe
 
-vector.exe: vector.cpp
-	g++ vector.cpp -o vector.exe
+program.exe: main.cpp funkcijos.cpp studentas.cpp
+	g++ main.cpp funkcijos.cpp studentas.cpp -o program.exe

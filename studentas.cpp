@@ -1,4 +1,4 @@
-#include "Studentas.h"
+#include "studentas.h"
 #include <algorithm>
 
 void Studentas::apskaiciuotiGalutini() {

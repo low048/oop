@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Studentas.h"
+#include "studentas.h"
 
 int patikrintiSkaiciu(int maziausias, int didziausias);
 void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde);
