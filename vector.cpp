@@ -85,7 +85,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
         studentai.push_back(std::move(naujasStudentas));
     }
     failas.close();
-    std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms\n";
+    std::cout << "Failo nuskaitymas užtruko " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n";
 }
 
 int main() {
@@ -167,6 +167,7 @@ int main() {
             case 4: {
                 //failo nuskaitymas
                 std::string failoPavadinimas;
+                system("dir *.txt");
                 std::cout << "  Įveskite failo pavadinimą: ";
                 std::cin >> failoPavadinimas;
                 skaitytiIsFailo(studentai, failoPavadinimas);
@@ -199,7 +200,7 @@ int main() {
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
                             return a.vardas > b.vardas; });
                 }
-                std::cout << "Rūšiavimas užtruko " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms\n";
+                std::cout << "Rūšiavimas užtruko " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n";
                 break;
             }
             default:
