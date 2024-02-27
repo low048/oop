@@ -15,8 +15,8 @@ struct Studentas{
     std::vector<int> namuDarbai;
     int sum = 0; //namų darbų rezultatų suma
     int egz = 0; //egzamino rezultatas
-    double galutinisVid = 0;
-    double galutinisMed = 0;
+    float galutinisVid = 0;
+    float galutinisMed = 0;
 
     void apskaiciuotiGalutini() {
         if(!namuDarbai.empty()){
