@@ -56,5 +56,5 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
         studentai.push_back(std::move(naujasStudentas));
     }
     failas.close();
-    std::cout << "Failo nuskaitymas užtruko " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n";
+    std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
 }

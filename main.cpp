@@ -123,7 +123,7 @@ int main() {
                         std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
                             return a.vardas > b.vardas; });
                 }
-                std::cout << "Rūšiavimas užtruko " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n";
+                std::cout << "Rūšiavimas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
                 break;
             }
             default:
