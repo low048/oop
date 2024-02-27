@@ -10,16 +10,26 @@
 
 int patikrintiSkaiciu(int maziausias, int didziausias) {
     int skaicius;
-    while (true) {
-        std::cin >> skaicius;
-        if (std::cin.fail() || skaicius < maziausias || skaicius > didziausias) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Neteisingai įvestas skaičius, bandykite dar kartą: ";
-        } else {
-            return skaicius;
+    std::string ivestis;
+    bool ivestisTeisinga = false;
+    while (!ivestisTeisinga) {
+        if (std::cin.peek() == '\n') {
+            std::cin.ignore();
+        }
+        std::getline(std::cin, ivestis);
+        try {
+            skaicius = std::stoi(ivestis);
+            if (skaicius < maziausias || skaicius > didziausias) {
+                throw std::out_of_range("Skaičius už leistino intervalo.");
+            }
+            ivestisTeisinga = true;
+        } catch (const std::invalid_argument&) {
+            std::cout << "Įvesta reikšmė nėra skaičius, bandykite dar kartą: ";
+        } catch (const std::out_of_range&) {
+            std::cout << "Įvestas skaičius yra už leistino intervalo, bandykite dar kartą: ";
         }
     }
+    return skaicius;
 }
 
 void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
