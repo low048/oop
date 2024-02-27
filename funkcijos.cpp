@@ -7,7 +7,6 @@
 #include <chrono>
 #include <algorithm>
 
-
 int patikrintiSkaiciu(int maziausias, int didziausias) {
     int skaicius;
     std::string ivestis;
@@ -16,7 +15,12 @@ int patikrintiSkaiciu(int maziausias, int didziausias) {
         if (std::cin.peek() == '\n') {
             std::cin.ignore();
         }
-        std::getline(std::cin, ivestis);
+        if (!std::getline(std::cin, ivestis)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //ignoruoti likusią eilutę
+            std::cout << "Įvyko klaida skaitant įvestį, bandykite dar kartą: ";
+            continue;
+        }
         try {
             skaicius = std::stoi(ivestis);
             if (skaicius < maziausias || skaicius > didziausias) {
@@ -88,11 +92,11 @@ void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinki
     switch (rikiavimoPasirinkimas) {
         case 1:
             std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                return a.vardas > b.vardas; });
+                return a.vardas < b.vardas; });
             break;
         case 2:
             std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                return a.pavarde > b.pavarde; });
+                return a.pavarde < b.pavarde; });
             break;
         case 3:
             std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
