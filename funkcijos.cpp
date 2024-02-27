@@ -30,34 +30,48 @@ void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
 }
 
 void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
-    auto start = std::chrono::high_resolution_clock::now();
-    std::ifstream failas(failoPavadinimas);
-    if (!failas.is_open()) {
-        std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << '\n';
-        return;
-    }
-    std::string eilute;
-    std::getline(failas, eilute); //praleisti eilutę su antraštėmis
+    try {
+        std::ifstream failas(failoPavadinimas);
+        if (!failas.is_open())
+            throw std::runtime_error("nepavyko atidaryti failo " + failoPavadinimas);
 
-    while (std::getline(failas, eilute)) {
-        std::istringstream eilutesSrautas(eilute);
-        Studentas naujasStudentas;
-        eilutesSrautas >> naujasStudentas.vardas >> naujasStudentas.pavarde;
-        int pazymys;
-        while (eilutesSrautas >> pazymys) {
-            naujasStudentas.namuDarbai.push_back(pazymys);
-            naujasStudentas.sum += pazymys;
+        std::string eilute;
+        std::getline(failas, eilute); //praleisti eilutę su antraštėmis
+
+        while (std::getline(failas, eilute)) {
+            try {
+                std::istringstream eilutesSrautas(eilute);
+                Studentas naujasStudentas;
+                if (!(eilutesSrautas >> naujasStudentas.vardas >> naujasStudentas.pavarde)) {
+                    throw std::logic_error("nepavyko nuskaityti studento vardo ar pavardės.");
+                }
+                int pazymys;
+                while (eilutesSrautas >> pazymys) {
+                    if (pazymys < 0 || pazymys > 10) {
+                        throw std::out_of_range("pažymys yra už leistino intervalo (0-10).");
+                    }
+                    naujasStudentas.namuDarbai.push_back(pazymys);
+                    naujasStudentas.sum += pazymys;
+                }
+                if (eilutesSrautas.fail() && !eilutesSrautas.eof()) {
+                    throw std::logic_error("nepavyko nuskaityti visų pažymių.");
+                }
+                if (!naujasStudentas.namuDarbai.empty()) {
+                    naujasStudentas.egz = naujasStudentas.namuDarbai.back();
+                    naujasStudentas.sum -= naujasStudentas.egz;
+                    naujasStudentas.namuDarbai.pop_back(); //pašalinti paskutinį pažymį, kadangi jis yra egzamino įvertinimas
+                }
+                naujasStudentas.apskaiciuotiGalutini();
+                studentai.push_back(std::move(naujasStudentas));
+            } catch (std::exception& e) {
+                std::cout << "Nuskaitant eilutę įvyko klaida: " << e.what() << '\n';
+            }
+
         }
-        if (!naujasStudentas.namuDarbai.empty()) {
-            naujasStudentas.egz = naujasStudentas.namuDarbai.back();
-            naujasStudentas.sum -= naujasStudentas.egz;
-            naujasStudentas.namuDarbai.pop_back(); //pašalinti paskutinį pažymį, kadangi jis yra egzamino įvertinimas
-        }
-        naujasStudentas.apskaiciuotiGalutini();
-        studentai.push_back(std::move(naujasStudentas));
+        failas.close();
+    } catch (std::exception& e) {
+        std::cout << "Nuskaitant failą įvyko klaida: " << e.what() << '\n';
     }
-    failas.close();
-    std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
 }
 
 void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas) {

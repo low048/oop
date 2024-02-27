@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <limits>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -93,7 +92,9 @@ int main() {
                 system("dir *.txt");
                 std::cout << "  Įveskite failo pavadinimą: ";
                 std::cin >> failoPavadinimas;
+                auto start = std::chrono::high_resolution_clock::now();
                 skaitytiIsFailo(studentai, failoPavadinimas);
+                std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
                 break;
             }
             case 5:{
