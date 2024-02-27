@@ -8,8 +8,8 @@
 #include <sstream>
 #include <climits>
 #include <chrono>
-#include <studentas.h>
-#include <funkcijos.h>
+#include "studentas.h"
+#include "funkcijos.h"
 
 int main() {
     srand(time(0));

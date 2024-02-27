@@ -1,4 +1,4 @@
-#include <funkcijos.h>
+#include "funkcijos.h"
 #include <iostream>
 #include <limits>
 #include <fstream>
