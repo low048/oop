@@ -12,10 +12,12 @@ int main() {
             << "2 - Generuoti pažymius\n"
             << "3 - Generuoti pažymius ir studentų vardus, pavardes\n"
             << "4 - Nuskaityti studentų duomenis iš failo\n"
-            << "5 - Baigti darbą\n"
+            << "5 - Generuoti atsitiktinį studentų sąrašo failą\n"
+            << "6 - Rūšiuoti studentus pagal nepatenkinamus ir patenkinamus galutinius įvertinimus\n"
+            << "7 - Baigti darbą\n"
             << "Pasirinkimas: ";
-        meniuPasirinkimas = patikrintiSkaiciu(1, 5);
-        switch(meniuPasirinkimas){
+        meniuPasirinkimas = patikrintiSkaiciu(1, 7);
+        switch(meniuPasirinkimas) {
            case 1: {
                 //duomenys įvedami ranka
                 Studentas naujasStudentas;
@@ -81,6 +83,7 @@ int main() {
             case 4: {
                 //failo nuskaitymas
                 std::string failoPavadinimas;
+                std::cout << "Galimi failai: " << std::flush;
                 system("dir *.txt");
                 std::cout << "  Įveskite failo pavadinimą: ";
                 std::cin >> failoPavadinimas;
@@ -89,7 +92,43 @@ int main() {
                 std::cout << "Failo nuskaitymas užtruko " << t.elapsed() << " s\n";
                 break;
             }
-            case 5:{
+            case 5: {
+                //atsitiktinio studentų sąrašo failo generavimas
+                std::cout << "Įveskite studentų skaičių: ";
+                int studentuSkaicius = patikrintiSkaiciu(1, std::numeric_limits<int>::max());
+                std::cout << "Įveskite namų darbų skaičių: ";
+                int namuDarbuSkaicius = patikrintiSkaiciu(1, std::numeric_limits<int>::max());
+                std::string failoPavadinimas = "studentai_" + std::to_string(studentuSkaicius) + ".txt";
+                std::ofstream rezultatuFailas(failoPavadinimas);
+                if (rezultatuFailas.is_open()) {
+                    rezultatuFailas << std::left << std::setw(20) << "Vardas" << std::right << std::setw(20) << "Pavarde";
+                    for (int i = 0; i < namuDarbuSkaicius; i++) {
+                        rezultatuFailas << std::setw(10) << "ND" + std::to_string(i + 1);
+                    }
+                    rezultatuFailas << std::setw(10) << "Egz." << std::endl;
+                    for (int i = 0; i < studentuSkaicius; i++) {
+                        std::string vardas = "Vardas" + std::to_string(i + 1);
+                        std::string pavarde = "Pavarde" + std::to_string(i + 1);
+                        rezultatuFailas << std::left << std::setw(20) << vardas;
+                        rezultatuFailas << std::right << std::setw(20) << pavarde;
+                        for (int j = 0; j < namuDarbuSkaicius; j++) {
+                            int pazymys = generuotiAtsitiktiniSkaiciu(1, 10);
+                            rezultatuFailas << std::setw(10) << pazymys;
+                        }
+                        int egzaminas = generuotiAtsitiktiniSkaiciu(1, 10);
+                        rezultatuFailas << std::setw(10) << egzaminas << std::endl;
+                    }
+                    rezultatuFailas.close();
+                    std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
+                } else {
+                    std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
+                }
+            }
+            case 6: {
+                //studentų rūšiavimas pagal galutinius įvertinimus
+                
+            }
+            case 7: {
                 //darbo baigimas, rikiavimas
                 std::cout << "Rikiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                 int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
@@ -101,7 +140,7 @@ int main() {
             default:
                 std::cout << "Netinkamas pasirinkimas, bandykite iš naujo.\n";
         }
-    } while(meniuPasirinkimas != 5);
+    } while(meniuPasirinkimas != 7);
     std::cout << "Išvesti į:\n1 - Konsolę\n2 - Failą\nPasirinkimas: ";
     int isvestiesPasirinkimas = patikrintiSkaiciu(1, 2);
     if (isvestiesPasirinkimas == 2) {
