@@ -11,9 +11,10 @@
 #include <cstdlib>
 #include <chrono>
 #include <algorithm>
+#include <random>
 
 int patikrintiSkaiciu(int maziausias, int didziausias);
-void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde);
+int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias);
 void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas);
 void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas);
 

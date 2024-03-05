@@ -4,7 +4,6 @@
 #include "timer.h"
 
 int main() {
-    srand(time(0));
     std::vector<Studentas> studentai;
     int meniuPasirinkimas = 0;
     do {
@@ -50,7 +49,7 @@ int main() {
                 std::cout << "  Įveskite namų darbų skaičių: ";
                 int n = patikrintiSkaiciu(0, std::numeric_limits<int>::max());
                 for (int v = 0; v < n; v++) {
-                    int pazymys = rand() % 10 + 1;
+                    int pazymys = generuotiAtsitiktiniSkaiciu(1, 10);
                     naujasStudentas.namuDarbai.push_back(pazymys);
                     naujasStudentas.sum += pazymys;
                 }
@@ -68,9 +67,9 @@ int main() {
                     Studentas naujasStudentas;
                     naujasStudentas.vardas = "Vardas" + std::to_string(i + 1);
                     naujasStudentas.pavarde = "Pavarde" + std::to_string(i + 1);
-                    naujasStudentas.egz = rand() % 10 + 1;
+                    naujasStudentas.egz = generuotiAtsitiktiniSkaiciu(1, 10);;
                     for (int v = 0; v < namuDarbuSkaicius; v++) {
-                        int pazymys = rand() % 10 + 1;
+                        int pazymys = generuotiAtsitiktiniSkaiciu(1, 10);;
                         naujasStudentas.namuDarbai.push_back(pazymys);
                         naujasStudentas.sum += pazymys;
                     }

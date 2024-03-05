@@ -29,11 +29,12 @@ int patikrintiSkaiciu(int maziausias, int didziausias) {
     return skaicius;
 }
 
-void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde) {
-    std::vector<std::string> vardai{"Jonas", "Petras", "Antanas", "Kazys", "Simas"};
-    std::vector<std::string> pavardes{"Jonaitis", "Petraitis", "Antanaitis", "Kazlauskas", "Simaitis"};
-    vardas = vardai[rand() % 5];
-    pavarde = pavardes[rand() % 5];
+int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(maziausias, didziausias);
+    
+    return dis(gen);
 }
 
 void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
