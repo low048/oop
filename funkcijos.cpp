@@ -1,11 +1,4 @@
 #include "funkcijos.h"
-#include <iostream>
-#include <limits>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include <chrono>
-#include <algorithm>
 
 int patikrintiSkaiciu(int maziausias, int didziausias) {
     int skaicius;

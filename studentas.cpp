@@ -1,5 +1,4 @@
 #include "studentas.h"
-#include <algorithm>
 
 void Studentas::apskaiciuotiGalutini() {
     if(!namuDarbai.empty()){

@@ -1,9 +1,16 @@
 #ifndef FUNKCIJOS_H
 #define FUNKCIJOS_H
 
+#include "studentas.h"
 #include <vector>
 #include <string>
-#include "studentas.h"
+#include <iostream>
+#include <limits>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>
+#include <chrono>
+#include <algorithm>
 
 int patikrintiSkaiciu(int maziausias, int didziausias);
 void generuotiVardaIrPavarde(std::string& vardas, std::string& pavarde);

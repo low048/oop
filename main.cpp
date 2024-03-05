@@ -1,14 +1,7 @@
-#include <iostream>
 #include <iomanip>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <climits>
-#include <chrono>
 #include "studentas.h"
 #include "funkcijos.h"
+#include "timer.h"
 
 int main() {
     srand(time(0));
@@ -55,7 +48,7 @@ int main() {
                 std::cout << "  Įveskite studento egzamino rezultatą: ";
                 naujasStudentas.egz = patikrintiSkaiciu(0, 10);
                 std::cout << "  Įveskite namų darbų skaičių: ";
-                int n = patikrintiSkaiciu(0, INT_MAX);
+                int n = patikrintiSkaiciu(0, std::numeric_limits<int>::max());
                 for (int v = 0; v < n; v++) {
                     int pazymys = rand() % 10 + 1;
                     naujasStudentas.namuDarbai.push_back(pazymys);
@@ -68,15 +61,15 @@ int main() {
             case 3: {
                 //atsitiktinai generuojami studento vardas, pavardė bei pažymiai
                 std::cout << "  Įveskite studentų skaičių: ";
-                int studentuSkaicius = patikrintiSkaiciu(0, INT_MAX);
-                std::cout << "  Įveskite maksimalų namų darbų skaičių: ";
-                int maxNamuDarbu = patikrintiSkaiciu(0, INT_MAX);
+                int studentuSkaicius = patikrintiSkaiciu(0, std::numeric_limits<int>::max());
+                std::cout << "  Įveskite namų darbų skaičių: ";
+                int namuDarbuSkaicius = patikrintiSkaiciu(0, std::numeric_limits<int>::max());
                 for (int i = 0; i < studentuSkaicius; i++) {
                     Studentas naujasStudentas;
-                    generuotiVardaIrPavarde(naujasStudentas.vardas, naujasStudentas.pavarde);
+                    naujasStudentas.vardas = "Vardas" + std::to_string(i + 1);
+                    naujasStudentas.pavarde = "Pavarde" + std::to_string(i + 1);
                     naujasStudentas.egz = rand() % 10 + 1;
-                    int n = rand() % maxNamuDarbu + 1;
-                    for (int v = 0; v < n; v++) {
+                    for (int v = 0; v < namuDarbuSkaicius; v++) {
                         int pazymys = rand() % 10 + 1;
                         naujasStudentas.namuDarbai.push_back(pazymys);
                         naujasStudentas.sum += pazymys;
@@ -92,18 +85,18 @@ int main() {
                 system("dir *.txt");
                 std::cout << "  Įveskite failo pavadinimą: ";
                 std::cin >> failoPavadinimas;
-                auto start = std::chrono::high_resolution_clock::now();
+                Timer t;
                 skaitytiIsFailo(studentai, failoPavadinimas);
-                std::cout << "Failo nuskaitymas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
+                std::cout << "Failo nuskaitymas užtruko " << t.elapsed() << " s\n";
                 break;
             }
             case 5:{
                 //darbo baigimas, rikiavimas
                 std::cout << "Rikiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                 int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
-                auto start = std::chrono::high_resolution_clock::now();
+                Timer t;
                 rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
-                std::cout << "Rikiavimas užtruko " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << " s\n";
+                std::cout << "Rikiavimas užtruko " << t.elapsed() << " s\n";
                 break;
             }
             default:
