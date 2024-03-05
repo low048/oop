@@ -1,4 +1,3 @@
-#include <iomanip>
 #include "studentas.h"
 #include "funkcijos.h"
 #include "timer.h"
@@ -147,20 +146,7 @@ int main() {
         std::cout << "Įveskite failo pavadinimą: ";
         std::string failoPavadinimas;
         std::cin >> failoPavadinimas;
-        std::ofstream rezultatuFailas(failoPavadinimas);
-        if (rezultatuFailas.is_open()) {
-            rezultatuFailas << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
-            rezultatuFailas << "-----------------------------------------------------------------\n";
-            for (const auto& studentas : studentai) {
-                rezultatuFailas << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
-                                << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
-                                << std::setw(18) << studentas.galutinisMed << '\n';
-            }
-            rezultatuFailas.close();
-            std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
-        } else {
-            std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
-        }
+        irasytiStudentuDuomenis(failoPavadinimas, studentai);
     } else {
         std::cout << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
         std::cout << "-----------------------------------------------------------------\n";

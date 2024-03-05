@@ -82,6 +82,23 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     }
 }
 
+void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vector<Studentas>& studentai) {
+    std::ofstream rezultatuFailas(failoPavadinimas);
+    if (rezultatuFailas.is_open()) {
+        rezultatuFailas << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
+        rezultatuFailas << "-----------------------------------------------------------------\n";
+        for (const auto& studentas : studentai) {
+            rezultatuFailas << std::left << std::setw(14) << studentas.pavarde << std::setw(14) << studentas.vardas
+                            << std::setw(18) << std::fixed << std::setprecision(2) << studentas.galutinisVid
+                            << std::setw(18) << studentas.galutinisMed << '\n';
+        }
+        rezultatuFailas.close();
+        std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
+    } else {
+        std::cerr << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
+    }
+}
+
 void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas) {
     switch (rikiavimoPasirinkimas) {
         case 1:

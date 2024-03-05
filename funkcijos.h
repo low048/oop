@@ -12,10 +12,12 @@
 #include <chrono>
 #include <algorithm>
 #include <random>
+#include <iomanip>
 
 int patikrintiSkaiciu(int maziausias, int didziausias);
 int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias);
 void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas);
+void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vector<Studentas>& studentai);
 void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas);
 
 #endif
