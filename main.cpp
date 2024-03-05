@@ -6,6 +6,9 @@ int main() {
     std::vector<Studentas> studentai;
     int meniuPasirinkimas = 0;
     do {
+        if(meniuPasirinkimas != 0) {
+            std::cout << std::endl; //palikti tarpą po kiekvieno meniu pasirinkimo, kad būtų lengviau skaityti programos eigą
+        }
         std::cout << "Meniu:\n"
             << "1 - Įvesti duomenis ranka\n"
             << "2 - Generuoti pažymius\n"
@@ -122,18 +125,49 @@ int main() {
                 } else {
                     std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
                 }
+                break;
             }
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
+                std::vector<Studentas> nepatenkinami, patenkinami;
+                for (const auto& studentas : studentai) {
+                    if (studentas.galutinisVid < 5) {
+                        nepatenkinami.push_back(studentas);
+                    } else {
+                        patenkinami.push_back(studentas);
+                    }
+                }
+
+                std::cout << "Ar norite rikiuoti surūšiuotų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
+                bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
+                if (arRikiuoti) {
+                    std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
+                    int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                    rikiuotiStudentus(nepatenkinami, rikiavimoPasirinkimas);
+                    rikiuotiStudentus(patenkinami, rikiavimoPasirinkimas);
+                }
                 
+                std::cout << "Įveskite surūšiuotų studentų failo pavadinimą: ";
+                std::string failoPavadinimas;
+                std::cin >> failoPavadinimas;
+
+                irasytiStudentuDuomenis(failoPavadinimas + "_nepatenkinami.txt", nepatenkinami);
+                irasytiStudentuDuomenis(failoPavadinimas + "_patenkinami.txt", patenkinami);
+                
+                std::cout << "Surūšiuoti studentai išskirstyti į failus.\n";
+                break;
             }
             case 7: {
                 //darbo baigimas, rikiavimas
-                std::cout << "Rikiuoti pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
-                int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
-                Timer t;
-                rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
-                std::cout << "Rikiavimas užtruko " << t.elapsed() << " s\n";
+                std::cout << "Ar norite rikiuoti visų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
+                bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
+                if (arRikiuoti) {
+                    std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
+                    int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                    Timer t;
+                    rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
+                    std::cout << "Rikiavimas užtruko " << t.elapsed() << " s\n";
+                }
                 break;
             }
             default:
@@ -143,7 +177,7 @@ int main() {
     std::cout << "Išvesti į:\n1 - Konsolę\n2 - Failą\nPasirinkimas: ";
     int isvestiesPasirinkimas = patikrintiSkaiciu(1, 2);
     if (isvestiesPasirinkimas == 2) {
-        std::cout << "Įveskite failo pavadinimą: ";
+        std::cout << "Įveskite rezultato failo pavadinimą: ";
         std::string failoPavadinimas;
         std::cin >> failoPavadinimas;
         irasytiStudentuDuomenis(failoPavadinimas, studentai);
