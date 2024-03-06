@@ -8,6 +8,8 @@ Kompiuterio parametrai:
 
 Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/PirmasTyrimas).
 
+Kiekvienam failui generuojama 15 namų darbų pažymių.
+
 | Bandymo Nr | 1,000     | 10,000    | 100,000   | 1,000,000 | 10,000,000 |
 |------------|-----------|-----------|-----------|-----------|------------|
 | #1         | 0.0122881 | 0.0562507 | 0.525285  | 5.12021   | 50.9886    |
