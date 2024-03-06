@@ -5,6 +5,7 @@
 int main() {
     std::vector<Studentas> studentai;
     int meniuPasirinkimas = 0;
+    double timeSum;
     do {
         if(meniuPasirinkimas != 0) {
             std::cout << std::endl; //palikti tarpą po kiekvieno meniu pasirinkimo, kad būtų lengviau skaityti programos eigą
@@ -92,6 +93,7 @@ int main() {
                 Timer t;
                 skaitytiIsFailo(studentai, failoPavadinimas);
                 std::cout << "Failo nuskaitymas užtruko " << t.elapsed() << " s\n";
+                timeSum += t.elapsed();
                 break;
             }
             case 5: {
@@ -101,6 +103,7 @@ int main() {
                 std::cout << "Įveskite namų darbų skaičių: ";
                 int namuDarbuSkaicius = patikrintiSkaiciu(1, std::numeric_limits<int>::max());
                 std::string failoPavadinimas = "studentai_" + std::to_string(studentuSkaicius) + ".txt";
+                Timer t;
                 std::ofstream rezultatuFailas(failoPavadinimas);
                 if (rezultatuFailas.is_open()) {
                     rezultatuFailas << std::left << std::setw(20) << "Vardas" << std::right << std::setw(20) << "Pavarde";
@@ -113,7 +116,7 @@ int main() {
                         std::string pavarde = "Pavarde" + std::to_string(i + 1);
                         rezultatuFailas << std::left << std::setw(20) << vardas;
                         rezultatuFailas << std::right << std::setw(20) << pavarde;
-                        for (int j = 0; j < namuDarbuSkaicius; j++) {
+                        for (int v = 0; v < namuDarbuSkaicius; v++) {
                             int pazymys = generuotiAtsitiktiniSkaiciu(1, 10);
                             rezultatuFailas << std::setw(10) << pazymys;
                         }
@@ -122,6 +125,7 @@ int main() {
                     }
                     rezultatuFailas.close();
                     std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
+                    std::cout << "Atsitiktinio studentų sąrašo failo kūrimas užtruko " << t.elapsed() << " s\n";
                 } else {
                     std::cout << "Nepavyko atidaryti failo rašymui: " << failoPavadinimas << '\n';
                 }
@@ -129,6 +133,7 @@ int main() {
             }
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
+                Timer t;
                 std::vector<Studentas> nepatenkinami, patenkinami;
                 for (const auto& studentas : studentai) {
                     if (studentas.galutinisVid < 5) {
@@ -137,24 +142,36 @@ int main() {
                         patenkinami.push_back(studentas);
                     }
                 }
+                std::cout << "Rūšiavimas į dvi grupes užtruko " << t.elapsed() << " s\n";
+                timeSum += t.elapsed();
+
+                std::cout << "Įveskite surūšiuotų studentų .txt failo pavadinimą: ";
+                std::string failoPavadinimas;
+                std::cin >> failoPavadinimas;
 
                 std::cout << "Ar norite rikiuoti surūšiuotų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
                 bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
                 if (arRikiuoti) {
+                    Timer t2;
                     std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                     int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
                     rikiuotiStudentus(nepatenkinami, rikiavimoPasirinkimas);
                     rikiuotiStudentus(patenkinami, rikiavimoPasirinkimas);
+                    std::cout << "Rikiavimas užtruko " << t2.elapsed() << " s\n";
+                    timeSum += t2.elapsed();
                 }
                 
-                std::cout << "Įveskite surūšiuotų studentų failo pavadinimą: ";
-                std::string failoPavadinimas;
-                std::cin >> failoPavadinimas;
-
+                Timer t3;
                 irasytiStudentuDuomenis(failoPavadinimas + "_nepatenkinami.txt", nepatenkinami);
+                std::cout << "Nepatenkinamų studentų įrašymas užtruko " << t3.elapsed() << " s\n";
+                timeSum += t3.elapsed();
+
+                Timer t4;
                 irasytiStudentuDuomenis(failoPavadinimas + "_patenkinami.txt", patenkinami);
-                
-                std::cout << "Surūšiuoti studentai išskirstyti į failus.\n";
+                std::cout << "Patenkinamų studentų įrašymas užtruko " << t4.elapsed() << " s\n";
+                timeSum += t4.elapsed();
+
+                std::cout << "Išvis sugaišta laiko (be įvesties): " << timeSum << " s\n";
                 break;
             }
             case 7: {
@@ -167,6 +184,7 @@ int main() {
                     Timer t;
                     rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
                     std::cout << "Rikiavimas užtruko " << t.elapsed() << " s\n";
+                    timeSum += t.elapsed();
                 }
                 break;
             }
@@ -177,10 +195,13 @@ int main() {
     std::cout << "Išvesti į:\n1 - Konsolę\n2 - Failą\nPasirinkimas: ";
     int isvestiesPasirinkimas = patikrintiSkaiciu(1, 2);
     if (isvestiesPasirinkimas == 2) {
-        std::cout << "Įveskite rezultato failo pavadinimą: ";
+        std::cout << "Įveskite rezultato .txt failo pavadinimą: ";
         std::string failoPavadinimas;
         std::cin >> failoPavadinimas;
-        irasytiStudentuDuomenis(failoPavadinimas, studentai);
+        Timer t;
+        irasytiStudentuDuomenis(failoPavadinimas + ".txt", studentai);
+        timeSum += t.elapsed();
+        std::cout << "Išvis sugaišta laiko (be įvesties): " << timeSum << " s\n";
     } else {
         std::cout << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
         std::cout << "-----------------------------------------------------------------\n";

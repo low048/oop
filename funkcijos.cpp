@@ -46,6 +46,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
         std::string eilute;
         std::getline(failas, eilute); //praleisti eilutę su antraštėmis
 
+
         while (std::getline(failas, eilute)) {
             try {
                 std::istringstream eilutesSrautas(eilute);
