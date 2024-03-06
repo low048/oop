@@ -152,9 +152,9 @@ int main() {
                 std::cout << "Ar norite rikiuoti surūšiuotų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
                 bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
                 if (arRikiuoti) {
-                    Timer t2;
                     std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                     int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
+                    Timer t2;
                     rikiuotiStudentus(nepatenkinami, rikiavimoPasirinkimas);
                     rikiuotiStudentus(patenkinami, rikiavimoPasirinkimas);
                     std::cout << "Rikiavimas užtruko " << t2.elapsed() << " s\n";
