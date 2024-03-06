@@ -21,10 +21,10 @@ Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https:
 
 Testavimas buvo atliktas su failais:
 - `studentai_1000.txt` - 1k stud., 15 n.d., 197 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
-- `studentai10000.txt` - 10k stud., 15 n.d., 2022 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai100000.txt` - 100k stud., 15 n.d., 25098 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai1000000.txt` - 1 mil. stud., 15 n.d., 124024 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai_10000000.txt` - 10 mil. stud., 15 n.d., 1962891 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
+- `studentai10000.txt` - 10k stud., 15 n.d., 2,022 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai100000.txt` - 100k stud., 15 n.d., 25,098 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai1000000.txt` - 1 mil. stud., 15 n.d., 124,024 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai_10000000.txt` - 10 mil. stud., 15 n.d., 1,962,891 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -35,7 +35,7 @@ Testavimas buvo atliktas su failais:
 | Patenkinamų stud. įrašymas               | 0.0013947          | 0.0082172          | 0.0670584           | 0.60272              | 7.11938               |
 | Visas laikas (be įvesties)               | 0.0112775          | 0.0763587          | 0.875746            | 6.4748               | 92.8779               |
 
-# Testavimo rezultatai (<u>SENA VERSIJA</u> - v0.2)
+# Testavimo rezultatai (SENA VERSIJA - v0.2)
 
 Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpinti VMA:
 - `studentai10000.txt`
