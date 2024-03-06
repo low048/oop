@@ -1,3 +1,8 @@
+Kompiuterio parametrai: 
+- Ryzen 5 6600HS
+- NVME SSD
+- 16 GB LPDDR5 6400 MHz RAM
+
 # Testavimo rezultatai (v0.4)
 ## 1-as tyrimas
 
@@ -36,11 +41,6 @@ Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpint
 - `studentai10000.txt`
 - `studentai100000.txt`
 - `studentai1000000.txt`
-
-Kompiuterio parametrai: 
-- Ryzen 5 6600HS
-- NVME SSD
-- 16 GB LPDDR5 6400 MHz RAM
 
 ## Failo nuskaitymas
 
