@@ -4,9 +4,14 @@ Kompiuterio parametrai:
 - 16 GB LPDDR5 6400 MHz RAM
 
 # Testavimo rezultatai (v1.0)
-## 3-as tyrimas - veiksmai su įvairaus dydžio failais
-### 1-oji strategija
-#### vector:
+## 4-as tyrimas - rūšiavimo realizacijų veikimo spartos palyginimas
+
+### 1 strategija - du nauji to paties tipo konteineriai
+
+
+
+## 3-as tyrimas - veiksmų su įvairaus dydžio failais veikimo spartos palyginimas naudojant skirtingus konteinerius
+### vector:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -17,7 +22,9 @@ Kompiuterio parametrai:
 | Patenkinamų stud. įrašymas               | 0.0023206          | 0.0117405          | 0.0714214           | 0.95434              | 7.61723               |
 | Visas laikas (be įvesties)               | 0.0263308          | 0.0848641          | 0.87404             | 6.84993              | 89.0968               |
 
-#### list:
+`std::vector` suteikia greitą atsitiktinę prieigą ir yra efektyvus pridedant/pašalinant elementus konteinerio gale, tačiau lėčiau vyksta rikiavimas.
+
+### list:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -28,7 +35,9 @@ Kompiuterio parametrai:
 | Patenkinamų stud. įrašymas               | 0.0021207          | 0.0129539          | 0.0906158           | 0.897952             | 7.86134               |
 | Visas laikas (be įvesties)               | 0.0110467          | 0.0840572          | 0.805627            | 5.25787              | 89.1898               |
 
-#### deque:
+`std::list` yra dvipusis sąrašas, kuris leidžia greitai įterpti ir pašalinti elementus bet kurioje vietoje. Tačiau, kadangi elementai nėra saugomi gretimuose atminties blokuose, atsitiktinė prieiga yra lėta.
+
+### deque:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -38,6 +47,8 @@ Kompiuterio parametrai:
 | Nepatenkinamų stud. įrašymas             | 0.0026466          | 0.0094148          | 0.0765059           | 0.734575             | 7.40374               |
 | Patenkinamų stud. įrašymas               | 0.002045           | 0.0122805          | 0.107698            | 0.976536             | 10.6144               |
 | Visas laikas (be įvesties)               | 0.01218            | 0.0890443          | 0.952917            | 7.38004              | 100.768               |
+
+`std::deque` yra kaip tarpinė būsena tarp `std::vector` ir `std::list`. Jis leidžia greitai pridėti ir pašalinti elementus tiek priekyje, tiek gale, bet atsitiktinė prieiga yra šiek tiek lėtesnė nei std::vector.
 
 # Testavimo rezultatai (SENA VERSIJA - v0.4)
 ## 1-as tyrimas – atsitiktinių studentų failų generavimas
