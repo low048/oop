@@ -53,8 +53,6 @@ Kiekvienam failui generuojama 15 namų darbų pažymių.
 | #3         | 0.0060949   | 0.0546876     | 0.495838      | 4.73056       | 50.3248        |
 | Avg        | 0.0083214   | 0.0553866     | 0.5028837     | 4.90485       | 49.5617        |
 
-![pvz tyrimo nuotrauka](https://github.com/low048/PirmasLaboratorinis/blob/V0.4/TyrimuNuotraukos/PirmasTyrimas/15.png)
-
 ## 2-as tyrimas – veiksmai su įvairaus dydžio failais
 
 Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/AntrasTyrimas).
