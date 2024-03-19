@@ -137,9 +137,12 @@ int main() {
                 //studentų rūšiavimas pagal galutinius įvertinimus
                 Timer t;
                 std::vector<Studentas> nepatenkinami;
-                for (const auto& studentas : studentai) {
-                    if (studentas.galutinisVid < 5) {
-                        nepatenkinami.push_back(std::move(studentas));
+                for (auto it = studentai.begin(); it != studentai.end();) {
+                    if (it->galutinisVid < 5) {
+                        nepatenkinami.push_back(std::move(*it));
+                        it = studentai.erase(it);
+                    } else {
+                        it++;
                     }
                 }
                 std::cout << "Rūšiavimas į dvi grupes užtruko " << t.elapsed() << " s\n";
