@@ -37,7 +37,7 @@ int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias) {
     return dis(gen);
 }
 
-void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
+void skaitytiIsFailo(std::deque<Studentas>& studentai, const std::string& failoPavadinimas) {
     try {
         std::ifstream failas(failoPavadinimas);
         if (!failas.is_open())
@@ -83,7 +83,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     }
 }
 
-void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vector<Studentas>& studentai) {
+void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::deque<Studentas>& studentai) {
     std::ofstream rezultatuFailas(failoPavadinimas);
     if (rezultatuFailas.is_open()) {
         rezultatuFailas << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
@@ -100,7 +100,7 @@ void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vec
     }
 }
 
-void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas) {
+void rikiuotiStudentus(std::deque<Studentas>& studentai, int rikiavimoPasirinkimas) {
     switch (rikiavimoPasirinkimas) {
         case 1:
             std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
