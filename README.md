@@ -8,7 +8,13 @@ Kompiuterio parametrai:
 
 ### 1 strategija - du nauji to paties tipo konteineriai
 
-
+| Failas               | Vector   | List     | Deque    |
+|----------------------|----------|----------|----------|
+| studentai_1000.txt   | 0.0003127| 0.0002704| 0.0002705|
+| studentai10000.txt   | 0.0032477| 0.0027486| 0.0027023|
+| studentai100000.txt  | 0.0311697| 0.0294175| 0.0244668|
+| studentai1000000.txt | 0.40542  | 0.304561 | 0.243373 |
+| studentai_1000000.txt| 2.92201  | 2.68456  | 2.14507  |
 
 ## 3-as tyrimas - veiksmų su įvairaus dydžio failais veikimo spartos palyginimas naudojant skirtingus konteinerius
 ### vector:
