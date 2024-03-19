@@ -106,23 +106,25 @@ int main() {
                 Timer t;
                 std::ofstream rezultatuFailas(failoPavadinimas);
                 if (rezultatuFailas.is_open()) {
-                    rezultatuFailas << std::left << std::setw(20) << "Vardas" << std::right << std::setw(20) << "Pavarde";
+                    std::stringstream eilutesSrautas;
+                    eilutesSrautas << std::left << std::setw(20) << "Vardas" << std::right << std::setw(20) << "Pavarde";
                     for (int i = 0; i < namuDarbuSkaicius; i++) {
-                        rezultatuFailas << std::setw(10) << "ND" + std::to_string(i + 1);
+                        eilutesSrautas << std::setw(10) << "ND" + std::to_string(i + 1);
                     }
-                    rezultatuFailas << std::setw(10) << "Egz." << std::endl;
+                    eilutesSrautas << std::setw(10) << "Egz." << std::endl;
                     for (int i = 0; i < studentuSkaicius; i++) {
                         std::string vardas = "Vardas" + std::to_string(i + 1);
                         std::string pavarde = "Pavarde" + std::to_string(i + 1);
-                        rezultatuFailas << std::left << std::setw(20) << vardas;
-                        rezultatuFailas << std::right << std::setw(20) << pavarde;
+                        eilutesSrautas << std::left << std::setw(20) << vardas;
+                        eilutesSrautas << std::right << std::setw(20) << pavarde;
                         for (int v = 0; v < namuDarbuSkaicius; v++) {
                             int pazymys = generuotiAtsitiktiniSkaiciu(1, 10);
-                            rezultatuFailas << std::setw(10) << pazymys;
+                            eilutesSrautas << std::setw(10) << pazymys;
                         }
                         int egzaminas = generuotiAtsitiktiniSkaiciu(1, 10);
-                        rezultatuFailas << std::setw(10) << egzaminas << std::endl;
+                        eilutesSrautas << std::setw(10) << egzaminas << std::endl;
                     }
+                    rezultatuFailas << eilutesSrautas.str();
                     rezultatuFailas.close();
                     std::cout << "Duomenys išsaugoti faile: " << failoPavadinimas << '\n';
                     std::cout << "Atsitiktinio studentų sąrašo failo kūrimas užtruko " << t.elapsed() << " s\n";
