@@ -3,19 +3,57 @@ Kompiuterio parametrai:
 - NVME SSD
 - 16 GB LPDDR5 6400 MHz RAM
 
-# Testavimo rezultatai (v0.4)
+# Testavimo rezultatai (v1.0)
+## 3-as tyrimas - veiksmai su įvairaus dydžio failais
+### 1-oji strategija
+#### vector:
+
+| Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
+|------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
+| Duomenų nuskaitymas                      | 0.0079811          | 0.0487976          | 0.531535            | 2.61098              | 40.1398               |
+| Studentų rūšiavimas į dvi grupes         | 0.0003127          | 0.0032477          | 0.0311697           | 0.40542              | 2.92201               |
+| Studentų rikiavimas (pagal galutinį vid.)| 0.0012382          | 0.0124778          | 0.183998            | 2.35545              | 33.5949               |
+| Nepatenkinamų stud. įrašymas             | 0.0135206          | 0.0074135          | 0.0548416           | 0.52273              | 4.82187               |
+| Patenkinamų stud. įrašymas               | 0.0023206          | 0.0117405          | 0.0714214           | 0.95434              | 7.61723               |
+| Visas laikas (be įvesties)               | 0.0263308          | 0.0848641          | 0.87404             | 6.84993              | 89.0968               |
+
+#### list:
+
+| Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
+|------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
+| Duomenų nuskaitymas                      | 0.005016           | 0.0542886          | 0.554947            | 2.57551              | 40.0213               |
+| Studentų rūšiavimas į dvi grupes         | 0.0002704          | 0.0027486          | 0.0294175           | 0.304561             | 2.68456               |
+| Studentų rikiavimas (pagal galutinį vid.)| 0.0003741          | 0.0046876          | 0.0601057           | 0.916619             | 15.4971               |
+| Nepatenkinamų stud. įrašymas             | 0.0023782          | 0.0082674          | 0.069381            | 0.561922             | 23.1234               |
+| Patenkinamų stud. įrašymas               | 0.0021207          | 0.0129539          | 0.0906158           | 0.897952             | 7.86134               |
+| Visas laikas (be įvesties)               | 0.0110467          | 0.0840572          | 0.805627            | 5.25787              | 89.1898               |
+
+#### deque:
+
+| Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
+|------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
+| Duomenų nuskaitymas                      | 0.0047706          | 0.0471314          | 0.516918            | 2.47154              | 39.3773               |
+| Studentų rūšiavimas į dvi grupes         | 0.0002705          | 0.0027023          | 0.0244668           | 0.243373             | 2.14507               |
+| Studentų rikiavimas (pagal galutinį vid.)| 0.0014055          | 0.0162116          | 0.226202            | 2.95295              | 41.2255               |
+| Nepatenkinamų stud. įrašymas             | 0.0026466          | 0.0094148          | 0.0765059           | 0.734575             | 7.40374               |
+| Patenkinamų stud. įrašymas               | 0.002045           | 0.0122805          | 0.107698            | 0.976536             | 10.6144               |
+| Visas laikas (be įvesties)               | 0.01218            | 0.0890443          | 0.952917            | 7.38004              | 100.768               |
+
+# Testavimo rezultatai (SENA VERSIJA - v0.4)
 ## 1-as tyrimas – atsitiktinių studentų failų generavimas
 
 Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/PirmasTyrimas).
 
 Kiekvienam failui generuojama 15 namų darbų pažymių.
 
-| Bandymo nr. | 1,000 (s)   | 10,000 (s)    | 100,000 (s)   | 1,000,000 (s) | 10,000,000 (s) |
-|-------------|-------------|---------------|---------------|---------------|----------------|
-| #1          | 0.0036829   | 0.0224608     | 0.222447      | 2.55569       | 24.5616        |
-| #2          | 0.0026121   | 0.0223725     | 0.224537      | 2.47684       | 22.8554        |
-| #3          | 0.0026567   | 0.0225618     | 0.226477      | 2.60563       | 21.5269        |
-| Avg         | 0.0029839   | 0.022465033   | 0.224487      | 2.546053333   | 22.9813        |
+| Bandymo nr. | 1,000 (s)  | 10,000 (s)    | 100,000 (s)   | 1,000,000 (s) | 10,000,000 (s) |
+|------------|-------------|---------------|---------------|---------------|----------------|
+| #1         | 0.0122881   | 0.0562507     | 0.525285      | 5.12021       | 50.9886        |
+| #2         | 0.0065812   | 0.0552215     | 0.487528      | 4.86378       | 47.3717        |
+| #3         | 0.0060949   | 0.0546876     | 0.495838      | 4.73056       | 50.3248        |
+| Avg        | 0.0083214   | 0.0553866     | 0.5028837     | 4.90485       | 49.5617        |
+
+![pvz tyrimo nuotrauka](https://github.com/low048/PirmasLaboratorinis/blob/V0.4/TyrimuNuotraukos/PirmasTyrimas/15.png)
 
 ## 2-as tyrimas – veiksmai su įvairaus dydžio failais
 
@@ -43,8 +81,8 @@ Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpint
 - `studentai10000.txt`
 - `studentai100000.txt`
 - `studentai1000000.txt`
-
-## Failo nuskaitymas
+## Preliminarus tyrimas
+### Failo nuskaitymas
 
 | Bandymo nr. | 10k (s) | 100k (s) | 1 mil (s) |
 |-------------|---------|----------|-----------|
@@ -53,7 +91,7 @@ Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpint
 | #3          | 0.05092 | 0.54170  | 2.55759   |
 | Avg         | 0.04765 | 0.53808  | 2.56857   |
 
-## Rikiavimas pagal 3-ią pasirinkimą (galutinis pažymys, vid.)
+### Rikiavimas pagal 3-ią pasirinkimą (galutinis pažymys, vid.)
 
 | Bandymas nr. | 10k (s) | 100k (s) | 1 mil (s) |
 |--------------|---------|----------|-----------|
