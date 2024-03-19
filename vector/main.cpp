@@ -136,12 +136,10 @@ int main() {
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
                 Timer t;
-                std::vector<Studentas> nepatenkinami, patenkinami;
+                std::vector<Studentas> nepatenkinami;
                 for (const auto& studentas : studentai) {
                     if (studentas.galutinisVid < 5) {
-                        nepatenkinami.push_back(studentas);
-                    } else {
-                        patenkinami.push_back(studentas);
+                        nepatenkinami.push_back(std::move(studentas));
                     }
                 }
                 std::cout << "Rūšiavimas į dvi grupes užtruko " << t.elapsed() << " s\n";
@@ -158,7 +156,7 @@ int main() {
                     int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
                     Timer t2;
                     rikiuotiStudentus(nepatenkinami, rikiavimoPasirinkimas);
-                    rikiuotiStudentus(patenkinami, rikiavimoPasirinkimas);
+                    rikiuotiStudentus(studentai, rikiavimoPasirinkimas);
                     std::cout << "Rikiavimas užtruko " << t2.elapsed() << " s\n";
                     timeSum += t2.elapsed();
                 }
@@ -169,7 +167,7 @@ int main() {
                 timeSum += t3.elapsed();
 
                 Timer t4;
-                irasytiStudentuDuomenis(failoPavadinimas + "_patenkinami.txt", patenkinami);
+                irasytiStudentuDuomenis(failoPavadinimas + "_patenkinami.txt", studentai);
                 std::cout << "Patenkinamų studentų įrašymas užtruko " << t4.elapsed() << " s\n";
                 timeSum += t4.elapsed();
 
