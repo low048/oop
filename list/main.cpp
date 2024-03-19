@@ -3,7 +3,7 @@
 #include "timer.h"
 
 int main() {
-    std::vector<Studentas> studentai;
+    std::list<Studentas> studentai;
     int meniuPasirinkimas = 0;
     double timeSum;
     do {
@@ -136,7 +136,7 @@ int main() {
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
                 Timer t;
-                std::vector<Studentas> nepatenkinami, patenkinami;
+                std::list<Studentas> nepatenkinami, patenkinami;
                 for (const auto& studentas : studentai) {
                     if (studentas.galutinisVid < 5) {
                         nepatenkinami.push_back(studentas);

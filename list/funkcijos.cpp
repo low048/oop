@@ -37,7 +37,7 @@ int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias) {
     return dis(gen);
 }
 
-void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failoPavadinimas) {
+void skaitytiIsFailo(std::list<Studentas>& studentai, const std::string& failoPavadinimas) {
     try {
         std::ifstream failas(failoPavadinimas);
         if (!failas.is_open())
@@ -83,7 +83,7 @@ void skaitytiIsFailo(std::vector<Studentas>& studentai, const std::string& failo
     }
 }
 
-void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vector<Studentas>& studentai) {
+void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::list<Studentas>& studentai) {
     std::ofstream rezultatuFailas(failoPavadinimas);
     if (rezultatuFailas.is_open()) {
         rezultatuFailas << "Pavardė       Vardas        Galutinis (Vid.)  Galutinis (Med.)\n";
@@ -100,27 +100,27 @@ void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::vec
     }
 }
 
-void rikiuotiStudentus(std::vector<Studentas>& studentai, int rikiavimoPasirinkimas) {
+void rikiuotiStudentus(std::list<Studentas>& studentai, int rikiavimoPasirinkimas) {
     switch (rikiavimoPasirinkimas) {
         case 1:
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            studentai.sort([](const Studentas& a, const Studentas& b) {
                 return a.vardas < b.vardas; });
             break;
         case 2:
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            studentai.sort([](const Studentas& a, const Studentas& b) {
                 return a.pavarde < b.pavarde; });
             break;
         case 3:
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            studentai.sort([](const Studentas& a, const Studentas& b) {
                 return a.galutinisVid > b.galutinisVid; });
             break;
         case 4:
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            studentai.sort([](const Studentas& a, const Studentas& b) {
                 return a.galutinisMed > b.galutinisMed; });
             break;
         default:
             std::cout << "Netinkamas pasirinkimas, naudojamas numatytasis (Vardas).\n";
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            studentai.sort([](const Studentas& a, const Studentas& b) {
                 return a.vardas > b.vardas; });
     }
 }

@@ -1,13 +1,15 @@
+.PHONY: all vector list deque clean
+
 all: vector list deque
 
 vector:
-    g++ ./vector/*.cpp -o vector.exe
+	g++ ./vector/*.cpp -o vector.exe
 
 list:
-    g++ ./list/*.cpp -o list.exe
+	g++ ./list/*.cpp -o list.exe
 
 deque:
-    g++ ./deque/*.cpp -o deque.exe
+	g++ ./deque/*.cpp -o deque.exe
 
 clean:
-    rm -f vector.exe list.exe deque.exe
+	rm -f vector.exe list.exe deque.exe
