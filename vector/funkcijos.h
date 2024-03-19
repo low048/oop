@@ -1,7 +1,7 @@
 #ifndef FUNKCIJOS_H
 #define FUNKCIJOS_H
 
-#include "studentas.h"
+#include "../include/studentas.h"
 #include <vector>
 #include <string>
 #include <iostream>

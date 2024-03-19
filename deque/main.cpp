@@ -1,6 +1,5 @@
-#include "studentas.h"
+#include "../include/timer.h"
 #include "funkcijos.h"
-#include "timer.h"
 
 int main() {
     std::deque<Studentas> studentai;
