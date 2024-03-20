@@ -1,24 +1,22 @@
+<details open>
+<summary>Testavimas</summary>
+<br>
+
 Kompiuterio parametrai: 
 - Ryzen 5 6600HS
 - NVME SSD
 - 16 GB LPDDR5 6400 MHz RAM
 
+Kiekvieno programos paleidimo tyrimų metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/).
+
+Testavimas buvo atliktas su failais:
+- `studentai_1000.txt` - 1k stud., 15 n.d., 197 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
+- `studentai10000.txt` - 10k stud., 15 n.d., 2,022 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai100000.txt` - 100k stud., 15 n.d., 25,098 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai1000000.txt` - 1 mil. stud., 15 n.d., 124,024 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai_10000000.txt` - 10 mil. stud., 15 n.d., 1,962,891 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
+
 # Testavimo rezultatai (v1.0)
-## 4-as tyrimas - rūšiavimo realizacijų veikimo spartos palyginimas
-
-### 1 strategija - du nauji to paties tipo konteineriai
-
-| Failas               | std::vector | std::list  | std::deque |
-|----------------------|-------------|------------|------------|
-| studentai_1000.txt   | 0.0003127   | 0.0002704  | 0.0002705  |
-| studentai10000.txt   | 0.0032477   | 0.0027486  | 0.0027023  |
-| studentai100000.txt  | 0.0311697   | 0.0294175  | 0.0244668  |
-| studentai1000000.txt | 0.40542     | 0.304561   | 0.243373   |
-| studentai_1000000.txt| 2.92201     | 2.68456    | 2.14507    |
-
-### 2 strategija - tik vienas naujas nepatenkinamų studentų konteineris
-
-
 
 ## 3-as tyrimas - veiksmų su įvairaus dydžio failais veikimo spartos palyginimas naudojant skirtingus konteinerius
 ### vector:
@@ -60,10 +58,36 @@ Kompiuterio parametrai:
 
 `std::deque` yra kaip tarpinė būsena tarp `std::vector` ir `std::list`. Jis leidžia greitai pridėti ir pašalinti elementus tiek priekyje, tiek gale, bet atsitiktinė prieiga yra šiek tiek lėtesnė nei std::vector.
 
+
+## 4-as tyrimas - rūšiavimo realizacijų veikimo spartos palyginimas
+
+### 1 strategija - du nauji to paties tipo konteineriai
+
+| Failas               | std::vector | std::list  | std::deque |
+|----------------------|-------------|------------|------------|
+| studentai_1000.txt   | 0.0003127   | 0.0002704  | 0.0002705  |
+| studentai10000.txt   | 0.0032477   | 0.0027486  | 0.0027023  |
+| studentai100000.txt  | 0.0311697   | 0.0294175  | 0.0244668  |
+| studentai1000000.txt | 0.40542     | 0.304561   | 0.243373   |
+| studentai_1000000.txt| 2.92201     | 2.68456    | 2.14507    |
+
+### 2 strategija - tik vienas naujas nepatenkinamų studentų konteineris
+ 
+| Failas               | std::vector | std::list  | std::deque |
+|----------------------|-------------|------------|------------|
+| studentai_1000.txt   | 0.0160035   | 0.000119   | 0.0064141  |
+| studentai10000.txt   | 1.3132      | 0.0014248  | 0.561508   |
+| studentai100000.txt  | 260.609     | 0.010907   | 62.2927    |
+| studentai1000000.txt | n/a         | 0.108521   | n/a        |
+| studentai_1000000.txt| n/a         | 1.00361    | n/a        |
+
+`n/a` - užtruko per ilgai.
+
+`std::vector` ir `std::deque` realizacijos buvo ženkliai lėtesnės, o `std::list` net pagreitėjo.
+
+
 # Testavimo rezultatai (SENA VERSIJA - v0.4)
 ## 1-as tyrimas – atsitiktinių studentų failų generavimas
-
-Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/PirmasTyrimas).
 
 Kiekvienam failui generuojama 15 namų darbų pažymių.
 
@@ -75,15 +99,6 @@ Kiekvienam failui generuojama 15 namų darbų pažymių.
 | Avg        | 0.0083214   | 0.0553866     | 0.5028837     | 4.90485       | 49.5617        |
 
 ## 2-as tyrimas – veiksmai su įvairaus dydžio failais
-
-Kiekvieno programos paleidimo tyrimo metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/AntrasTyrimas).
-
-Testavimas buvo atliktas su failais:
-- `studentai_1000.txt` - 1k stud., 15 n.d., 197 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
-- `studentai10000.txt` - 10k stud., 15 n.d., 2,022 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai100000.txt` - 100k stud., 15 n.d., 25,098 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai1000000.txt` - 1 mil. stud., 15 n.d., 124,024 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai_10000000.txt` - 10 mil. stud., 15 n.d., 1,962,891 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -118,3 +133,5 @@ Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpint
 | #2           | 0.01324 | 0.17555  | 2.23208   |
 | #3           | 0.01122 | 0.17587  | 2.11809   |
 | Avg          | 0.01252 | 0.17317  | 2.17698   |
+
+</details>
