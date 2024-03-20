@@ -134,6 +134,7 @@ int main() {
             }
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
+                //demėsio: po šio case įvykdimo, bendrame studentai konteineryje lieka tik patenkinami studentai, todėl likusios programos veikimas bus neteisingas
                 Timer t;
                 std::list<Studentas> nepatenkinami;
                 for (auto it = studentai.begin(); it != studentai.end();) {

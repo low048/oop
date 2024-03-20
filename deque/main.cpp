@@ -134,16 +134,12 @@ int main() {
             }
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
+                //demėsio: po šio case įvykdimo, bendrame studentai konteineryje lieka tik patenkinami studentai, todėl likusios programos veikimas bus neteisingas
                 Timer t;
-                std::deque<Studentas> nepatenkinami;
-                for (auto it = studentai.begin(); it != studentai.end();) {
-                    if (it->galutinisVid < 5) {
-                        nepatenkinami.push_back(std::move(*it));
-                        it = studentai.erase(it);
-                    } else {
-                        it++;
-                    }
-                }
+                auto it = std::partition(studentai.begin(), studentai.end(), [](const Studentas& s) { return s.galutinisVid >= 5; });
+                //std::deque<Studentas> nepatenkinami(std::make_move_iterator(it), std::make_move_iterator(studentai.end())); //greitesnė bei efektyvesnė atminties atžvilgiu versija, bet ne pagal reikalavimus
+                std::deque<Studentas> nepatenkinami(it, studentai.end());
+                studentai.erase(it, studentai.end());
                 std::cout << "Rūšiavimas į dvi grupes užtruko " << t.elapsed() << " s\n";
                 timeSum += t.elapsed();
 

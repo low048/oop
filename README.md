@@ -7,7 +7,7 @@ Kompiuterio parametrai:
 - NVME SSD
 - 16 GB LPDDR5 6400 MHz RAM
 
-Kiekvieno programos paleidimo tyrimų metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V0.4/TyrimuNuotraukos/).
+Kiekvieno programos paleidimo tyrimų metu nuotraukas galite matyti [čia](https://github.com/low048/PirmasLaboratorinis/tree/V1.0/TyrimuNuotraukos/).
 
 Testavimas buvo atliktas su failais:
 - `studentai_1000.txt` - 1k stud., 15 n.d., 197 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
@@ -85,6 +85,24 @@ Testavimas buvo atliktas su failais:
 
 `std::vector` ir `std::deque` realizacijos buvo ženkliai lėtesnės, o `std::list` net pagreitėjo.
 
+### 3 strategija - naudojamos optimizacijos 2-ai strategijai pagerinti
+
+Kadangi 1-osios strategijos `std::vector` ir `std::deque` konteinerių veikimą pateiktais algoritmais nelabai būtų galima pagreitinti (nors `std::move()` pagreitintų veikimą, tačiau tuo atvejų būtų pažeidžiamas reikalavimas, kad studentų konteineryje turi likti visi studentai, nes nėra daromos jų kopijos), pasirinkau optimizuoti 2-ąją strategiją, nes ši iš pradžių buvo itin lėta.
+
+Optimizacijai panaudojau `std::partition` algoritmą, kuris su predikatu pertvarko vektoriaus elementus taip, kad patenkinami būtų priekyje, o nepatenkinami gale. Tokiu būdu išvengiama `erase` operacijos, kuri šiems konteineriams yra brangi, nes reikia pertvarkyti visus elementus taip, kad būtų užpildomas naujai atsiradęs tarpas.
+
+`std::list` liko nepakitęs, nes iš pateiktų algoritmų neradau kuris paspartintų jo rūšiavimą, todėl jo ir netestavau.
+
+| Failas               | std::vector | std::deque |
+|----------------------|-------------|------------|
+| studentai_1000.txt   | 0.0003065   | 0.0003005  |
+| studentai10000.txt   | 0.0023285   | 0.0030482  |
+| studentai100000.txt  | 0.0341213   | 0.0427427  |
+| studentai1000000.txt | 0.246882    | 0.365215   |
+| studentai_1000000.txt| 6.66241     | 4.2805     |
+
+`std::move()` šiuo atveju dar paspartintų veikimą, tačiau jo nenaudojau, nes jo nėra tarp pateiktų algoritmų.
+
 
 # Testavimo rezultatai (SENA VERSIJA - v0.4)
 ## 1-as tyrimas – atsitiktinių studentų failų generavimas
@@ -123,7 +141,7 @@ Kiekvienam failui generuojama 15 namų darbų pažymių.
 
 ### Rikiavimas pagal 3-ią pasirinkimą (galutinis pažymys, vid.)
 
-| Bandymas nr. | 10k (s) | 100k (s) | 1 mil (s) |
+| Bandymo nr.  | 10k (s) | 100k (s) | 1 mil (s) |
 |--------------|---------|----------|-----------|
 | #1           | 0.01309 | 0.16808  | 2.18078   |
 | #2           | 0.01324 | 0.17555  | 2.23208   |
