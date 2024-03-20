@@ -37,7 +37,7 @@
 - Sekite instrukcijas, kurios rodomos konsolės langelyje.
 
 Programos paleidimo pavyzdys:
-![pvz](https://github.com/low048/PirmasLaboratorinis/tree/V1.0/TyrimuNuotraukos/KetvirtasTyrimas/1_strategija/list/1.png)
+![pvz](https://raw.githubusercontent.com/low048/PirmasLaboratorinis/V1.0/TyrimuNuotraukos/KetvirtasTyrimas/1_strategija/list/1.png)
 
 </details>
 
