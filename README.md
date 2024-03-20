@@ -1,3 +1,46 @@
+<details>
+<summary>Įdiegimo bei naudojimo instrukcija</summary>
+<br>
+
+## Projekto persikėlimas į savo kompiuterį
+
+- Instaliuokite GitHub Desktop.
+- Atsidarykite projekto [repozitorijos puslapį](https://github.com/low048/PirmasLaboratorinis).
+- Paspauskite Code mygtuką ir pasirinkite Open with GitHub Desktop.
+- Pasirinkite, kur norite išsaugoti projekto kopiją.
+- Paspauskite Clone.
+
+
+## Kompiliatorius
+
+- Parsisiųskite [Cygwin](https://www.cygwin.com/setup-x86_64.exe).
+- Instaliuokite Cygwin nepasirinkdami jokių pakuočių (packages), bet neištrinkite `setup-x86_64.exe`.
+- Atidarykite cmd, ir įvykdykite šias komandas:
+    - `cd C:\failo\vieta\kompiuteryje` (pvz. "cd C:\Users\User\Downloads", kuriame yra setup-x86_64.exe).
+    - `setup-x86_64.exe -q -P wget -P gcc-g++ -P make -P diffutils -P libmpfr-devel -P libgmp-devel -P libmpc-devel`
+- Palaukite kol užsidarys naujai atidarytas langas, tada bus įdiegtos visos reikiamos pakuotės programos paleidimui.
+
+## Projekto kompiliavimas
+
+- Atsidarykite `Cygwin64 Terminal`, tada jame įveskite:
+    - `cd "C:\projekto\vieta\kompiuteryje"` (pvz. "cd C:\Users\User\Desktop\PirmasLaboratorinis", kuriame yra projekto kopija).
+<br>Galimų tolesnių komandų sąrašas:
+    - `make vector` - jei norite kompiliuoti tik `vector` programos versiją
+    - `make list` - jei norite kompiliuoti tik `list` programos versiją
+    - `make deque`- jei norite kompiliuoti tik `deque` programos versiją
+    - `make all` - jei norite kompiliuoti visas anskčiau minėtas versijas
+    - `make clean`- jei norite ištrinti visas kompiliuotas versijas
+
+## Programos naudojimas
+
+- Atsidarykite naujai sukompiliuotą programos versiją(-as).
+- Sekite instrukcijas, kurios rodomos konsolės langelyje.
+
+Programos paleidimo pavyzdys:
+![pvz](https://github.com/low048/PirmasLaboratorinis/tree/V1.0/TyrimuNuotraukos/KetvirtasTyrimas/1_strategija/list/1.png)
+
+</details>
+
 <details open>
 <summary>Testavimas</summary>
 <br>
@@ -19,7 +62,7 @@ Testavimas buvo atliktas su failais:
 # Testavimo rezultatai (v1.0)
 
 ## 3-as tyrimas - veiksmų su įvairaus dydžio failais veikimo spartos palyginimas naudojant skirtingus konteinerius
-### vector:
+### std::vector:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -32,7 +75,7 @@ Testavimas buvo atliktas su failais:
 
 `std::vector` suteikia greitą atsitiktinę prieigą ir yra efektyvus pridedant/pašalinant elementus konteinerio gale, tačiau lėčiau vyksta rikiavimas.
 
-### list:
+### std::list:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
@@ -45,7 +88,7 @@ Testavimas buvo atliktas su failais:
 
 `std::list` yra dvipusis sąrašas, kuris leidžia greitai įterpti ir pašalinti elementus bet kurioje vietoje. Tačiau, kadangi elementai nėra saugomi gretimuose atminties blokuose, atsitiktinė prieiga yra lėta.
 
-### deque:
+### std::deque:
 
 | Veiksmas                                 | studentai_1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai_1000000.txt |
 |------------------------------------------|--------------------|--------------------|---------------------|----------------------|-----------------------|
