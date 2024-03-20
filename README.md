@@ -111,10 +111,6 @@ Kiekvienam failui generuojama 15 namų darbų pažymių.
 
 # Testavimo rezultatai (SENA VERSIJA - v0.2)
 
-Testavimas buvo atliktas su iš anksto generuotais failais, kurie buvo patalpinti VMA:
-- `studentai10000.txt`
-- `studentai100000.txt`
-- `studentai1000000.txt`
 ## Preliminarus tyrimas
 ### Failo nuskaitymas
 
