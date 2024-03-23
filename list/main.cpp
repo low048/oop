@@ -134,15 +134,40 @@ int main() {
             }
             case 6: {
                 //studentų rūšiavimas pagal galutinius įvertinimus
-                //demėsio: po šio case įvykdimo, bendrame studentai konteineryje lieka tik patenkinami studentai, todėl likusios programos veikimas bus neteisingas
+                std::cout << "Pasirinkite strategiją:\n1 - Pirmoji strategija\n2 - Antroji strategija\n3 - Trečioji strategija\nPasirinkimas: ";
+                int strategija = patikrintiSkaiciu(1, 3);
+
                 Timer t;
                 std::list<Studentas> nepatenkinami;
-                for (auto it = studentai.begin(); it != studentai.end();) {
-                    if (it->galutinisVid < 5) {
-                        nepatenkinami.push_back(std::move(*it));
-                        it = studentai.erase(it);
-                    } else {
-                        it++;
+                switch (strategija) {
+                    case 1: {
+                        std::list<Studentas> patenkinami;
+                        for (const auto& studentas : studentai) {
+                            if (studentas.galutinisVid < 5) {
+                                nepatenkinami.push_back(studentas);
+                            } else {
+                                patenkinami.push_back(studentas);
+                            }
+                        }
+                        studentai.swap(patenkinami);
+                        break;
+                    }
+                    case 2: {
+                        for (auto it = studentai.begin(); it != studentai.end();) {
+                            if (it->galutinisVid < 5) {
+                                nepatenkinami.push_back(std::move(*it));
+                                it = studentai.erase(it);
+                            } else {
+                                it++;
+                            }
+                        }
+                        break;
+                    }
+                    case 3: {
+                        auto it = std::partition(studentai.begin(), studentai.end(), [](const Studentas& s) { return s.galutinisVid >= 5; });
+                        nepatenkinami.assign(std::make_move_iterator(it), std::make_move_iterator(studentai.end()));
+                        studentai.erase(it, studentai.end());
+                        break;
                     }
                 }
                 std::cout << "Rūšiavimas į dvi grupes užtruko " << t.elapsed() << " s\n";
@@ -152,8 +177,8 @@ int main() {
                 std::string failoPavadinimas;
                 std::cin >> failoPavadinimas;
 
-                std::cout << "Ar norite rikiuoti surūšiuotų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
-                bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
+                std::cout << "Ar norite rikiuoti visų studentų sąrašą? (t/n): ";
+                bool arRikiuoti = patikrintiTaipNe();
                 if (arRikiuoti) {
                     std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                     int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);
@@ -174,13 +199,16 @@ int main() {
                 std::cout << "Patenkinamų studentų įrašymas užtruko " << t4.elapsed() << " s\n";
                 timeSum += t4.elapsed();
 
+                std::cout << "Jungiami studentų konteineriai...\n";
+                std::move(nepatenkinami.begin(), nepatenkinami.end(), std::back_inserter(studentai));
+ 
                 std::cout << "Išvis sugaišta laiko (be įvesties): " << timeSum << " s\n";
                 break;
             }
             case 7: {
                 //darbo baigimas, rikiavimas
-                std::cout << "Ar norite rikiuoti visų studentų sąrašą?\n1 - Taip\n2 - Ne\nPasirinkimas: ";
-                bool arRikiuoti = patikrintiSkaiciu(1, 2) == 1 ? true : false;
+                std::cout << "Ar norite rikiuoti visų studentų sąrašą? (t/n): ";
+                bool arRikiuoti = patikrintiTaipNe();
                 if (arRikiuoti) {
                     std::cout << "Rikiuoti studentus pagal:\n1 - Vardą\n2 - Pavardę\n3 - Galutinį (Vid.)\n4 - Galutinį (Med.)\nPasirinkimas: ";
                     int rikiavimoPasirinkimas = patikrintiSkaiciu(1, 4);

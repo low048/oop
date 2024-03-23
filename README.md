@@ -55,8 +55,8 @@ Kiekvieno programos paleidimo tyrimų metu nuotraukas galite matyti [čia](https
 Testavimas buvo atliktas su failais:
 - `studentai_1000.txt` - 1k stud., 15 n.d., 197 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
 - `studentai10000.txt` - 10k stud., 15 n.d., 2,022 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai100000.txt` - 100k stud., 15 n.d., 25,098 KB (iš anksto generuotas, patalpintas VMA)
-- `studentai1000000.txt` - 1 mil. stud., 15 n.d., 124,024 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai100000.txt` - 100k stud., 20 n.d., 25,098 KB (iš anksto generuotas, patalpintas VMA)
+- `studentai1000000.txt` - 1 mil. stud., 7 n.d., 124,024 KB (iš anksto generuotas, patalpintas VMA)
 - `studentai_10000000.txt` - 10 mil. stud., 15 n.d., 1,962,891 KB (iš savos atsitiktinių studentų failo generavimo funkcijos)
 
 # Testavimo rezultatai (v1.0)
@@ -130,22 +130,19 @@ Testavimas buvo atliktas su failais:
 
 ### 3 strategija - naudojamos optimizacijos 2-ai strategijai pagerinti
 
-Kadangi 1-osios strategijos `std::vector` ir `std::deque` konteinerių veikimą pateiktais algoritmais nelabai būtų galima pagreitinti (nors `std::move()` pagreitintų veikimą, tačiau tuo atvejų būtų pažeidžiamas reikalavimas, kad studentų konteineryje turi likti visi studentai, nes nėra daromos jų kopijos), pasirinkau optimizuoti 2-ąją strategiją, nes ši iš pradžių buvo itin lėta.
+Kadangi 1-osios strategijos `std::vector` ir `std::deque` konteinerių veikimą **pateiktais** algoritmais nelabai būtų galima pagreitinti, pasirinkau optimizuoti 2-ąją strategiją, nes ši iš pradžių buvo itin lėta.
 
-Optimizacijai panaudojau `std::partition` algoritmą, kuris su predikatu pertvarko vektoriaus elementus taip, kad patenkinami būtų priekyje, o nepatenkinami gale. Tokiu būdu išvengiama `erase` operacijos, kuri šiems konteineriams yra brangi, nes reikia pertvarkyti visus elementus taip, kad būtų užpildomas naujai atsiradęs tarpas.
+Optimizacijai panaudojau `std::partition` algoritmą, kuris su predikatu pertvarko vektoriaus elementus taip, kad patenkinami būtų priekyje, o nepatenkinami gale. Tokiu būdu išvengiama pakartotinų `erase` operacijų, kuri šiems konteineriams yra brangi, nes reikia pertvarkyti visus elementus taip, kad būtų užpildomas naujai atsiradęs tarpas. Taip pat konteinerio elementai yra perkeliami naudojant `std::make_move_iterator`, kad nereikėtų jų kopijuoti.
 
-`std::list` liko nepakitęs, nes iš pateiktų algoritmų neradau kuris paspartintų jo rūšiavimą, todėl jo ir netestavau.
+`std::list` konteineriui taip pat panaudojau `std::partition` algoritmą, tačiau tai nebuvo efektyviau palyginus su 2-ąja strategija.
 
-| Failas               | std::vector | std::deque |
-|----------------------|-------------|------------|
-| studentai_1000.txt   | 0.0003065   | 0.0003005  |
-| studentai10000.txt   | 0.0023285   | 0.0030482  |
-| studentai100000.txt  | 0.0341213   | 0.0427427  |
-| studentai1000000.txt | 0.246882    | 0.365215   |
-| studentai_1000000.txt| 6.66241     | 4.2805     |
-
-`std::move()` šiuo atveju dar paspartintų veikimą, tačiau jo nenaudojau, nes jo nėra tarp pateiktų algoritmų.
-
+| Failas               | std::vector | std::list  | std::deque |
+|----------------------|-------------|------------|------------|
+| studentai_1000.txt   | 0.0001595   | 0.0002096  | 0.000229   |
+| studentai10000.txt   | 0.0016814   | 0.0021475  | 0.0020181  |
+| studentai100000.txt  | 0.0172146   | 0.0208541  | 0.0218965  |
+| studentai1000000.txt | 0.132258    | 0.194196   | 0.197143   |
+| studentai_1000000.txt| 1.33541     | 1.81953    | 1.93628    |
 
 # Testavimo rezultatai (SENA VERSIJA - v0.4)
 ## 1-as tyrimas – atsitiktinių studentų failų generavimas

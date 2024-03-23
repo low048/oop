@@ -29,6 +29,20 @@ int patikrintiSkaiciu(int maziausias, int didziausias) {
     return skaicius;
 }
 
+bool patikrintiTaipNe() {
+    std::string ivestis;
+    while (true) {
+        if (std::cin.peek() == '\n') {
+            std::cin.ignore();
+        }
+        std::getline(std::cin, ivestis);
+        if (ivestis == "t" || ivestis == "n") {
+            return ivestis == "t";
+        }
+        std::cout << "Įvesta reikšmė nėra 't' arba 'n', bandykite dar kartą: ";
+    }
+}
+
 int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias) {
     static std::random_device rd;
     static std::mt19937 gen(rd());

@@ -15,6 +15,7 @@
 #include <iomanip>
 
 int patikrintiSkaiciu(int maziausias, int didziausias);
+bool patikrintiTaipNe();
 int generuotiAtsitiktiniSkaiciu(int maziausias, int didziausias);
 void skaitytiIsFailo(std::list<Studentas>& studentai, const std::string& failoPavadinimas);
 void irasytiStudentuDuomenis(const std::string& failoPavadinimas, const std::list<Studentas>& studentai);
