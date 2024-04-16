@@ -154,12 +154,14 @@ int main() {
                         break;
                     }
                     case 2: {
-                        for (auto it = studentai.begin(); it != studentai.end();) {
-                            if (it->galutinisVid < 5) {
-                                nepatenkinami.push_back(std::move(*it));
-                                it = studentai.erase(it);
-                            } else {
-                                it++;
+                        rikiuotiStudentus(studentai, 3);
+                        if (!studentai.empty()) {
+                            for (auto it = studentai.end(); it != studentai.begin();) {
+                                --it;
+                                if (it->galutinisVid < 5) {
+                                    nepatenkinami.push_back(std::move(*it));
+                                    it = studentai.erase(it);
+                                }
                             }
                         }
                         break;

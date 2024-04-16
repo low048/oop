@@ -115,26 +115,22 @@ Testavimas buvo atliktas su failais:
 | studentai_1000000.txt| 2.92201     | 2.68456    | 2.14507    |
 
 ### 2 strategija - tik vienas naujas nepatenkinamų studentų konteineris
- 
+
 | Failas               | std::vector | std::list  | std::deque |
 |----------------------|-------------|------------|------------|
-| studentai_1000.txt   | 0.0160035   | 0.000119   | 0.0064141  |
-| studentai10000.txt   | 1.3132      | 0.0014248  | 0.561508   |
-| studentai100000.txt  | 260.609     | 0.010907   | 62.2927    |
-| studentai1000000.txt | n/a         | 0.108521   | n/a        |
-| studentai_1000000.txt| n/a         | 1.00361    | n/a        |
+| studentai_1000.txt   | 0.0012996   | 0.0006707  | 0.0015146  |
+| studentai10000.txt   | 0.200978    | 0.0067772  | 0.0175728  |
+| studentai100000.txt  | 0.22196     | 0.0954995  | 0.248444   |
+| studentai1000000.txt | 2.58776     | 1.25379    | 3.08339    |
+| studentai_1000000.txt| 36.8585     | 20.8087    | 41.5902    |
 
-`n/a` - užtruko per ilgai.
-
-`std::vector` ir `std::deque` realizacijos buvo ženkliai lėtesnės, o `std::list` net pagreitėjo.
+Visose realizacijose rūšiavimas vyksta lėčiau, tačiau tai yra daug efektyviau atminties naudojimo atžvilgiu.
 
 ### 3 strategija - naudojamos optimizacijos 2-ai strategijai pagerinti
 
-Kadangi 1-osios strategijos `std::vector` ir `std::deque` konteinerių veikimą **pateiktais** algoritmais nelabai būtų galima pagreitinti, pasirinkau optimizuoti 2-ąją strategiją, nes ši iš pradžių buvo itin lėta.
+Kadangi 1-osios strategijos konteinerių veikimą **pateiktais** algoritmais nelabai būtų galima pagreitinti, pasirinkau optimizuoti 2-ąją strategiją, nes ši iš pradžių buvo itin lėta.
 
 Optimizacijai panaudojau `std::partition` algoritmą, kuris su predikatu pertvarko vektoriaus elementus taip, kad patenkinami būtų priekyje, o nepatenkinami gale. Tokiu būdu išvengiama pakartotinų `erase` operacijų, kuri šiems konteineriams yra brangi, nes reikia pertvarkyti visus elementus taip, kad būtų užpildomas naujai atsiradęs tarpas. Taip pat konteinerio elementai yra perkeliami naudojant `std::make_move_iterator`, kad nereikėtų jų kopijuoti.
-
-`std::list` konteineriui taip pat panaudojau `std::partition` algoritmą, tačiau tai nebuvo efektyviau palyginus su 2-ąja strategija.
 
 | Failas               | std::vector | std::list  | std::deque |
 |----------------------|-------------|------------|------------|
